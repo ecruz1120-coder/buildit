@@ -10,12 +10,13 @@ const BASE = import.meta.env.BASE_URL;
 let landImg: HTMLImageElement | null = null;
 let atlasImg: HTMLImageElement | null = null;
 let landTinted: HTMLCanvasElement | null = null;
+let loading: Promise<void> | null = null;
 function loadImages(onReady: () => void) {
-  if (landImg && atlasImg) return onReady();
-  let pending = 2;
-  const done = () => { if (--pending === 0) onReady(); };
-  landImg = new Image(); landImg.onload = done; landImg.src = `${BASE}world/ryzen5_landmask.png`;
-  atlasImg = new Image(); atlasImg.onload = done; atlasImg.src = `${BASE}world/ryzen5_atlas.jpg`;
+  if (!loading) {
+    const load = (src: string) => new Promise<HTMLImageElement>((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+    loading = Promise.all([load(`${BASE}world/ryzen5_landmask.png`), load(`${BASE}world/ryzen5_atlas.jpg`)]).then(([l, a]) => { landImg = l; atlasImg = a; });
+  }
+  loading.then(onReady);
 }
 
 /** Land mask → HoloBand-style land fill with a glowing coastline (built once). */
@@ -82,6 +83,7 @@ export class PlanetMap {
           <button class="nav" data-pl="from">FROM ▸ <b>${esc(NODE.get(this.from)!.name)}</b></button>
           <button class="nav" data-pl="to">TO ▸ <b>${esc(NODE.get(this.to)!.name)}</b></button>
           <button class="nav" data-pl="swap">⇅ SWAP</button>
+          ${this.g.inWorld ? '<button class="nav" data-pl="course">▶ SET COURSE TO DESTINATION</button>' : '<button class="nav" data-pl="overworld">▶ OPEN THE OVERWORLD (start at Zixel)</button>'}
           <div class="scales">${(['road', 'sea', 'air'] as Mode[]).map((m) => btn(`mode:${m}`, this.modes[m], m.toUpperCase())).join('')}</div>
         </div>
         <div class="pm-trip"></div>
@@ -125,6 +127,11 @@ export class PlanetMap {
     else if (c.startsWith('mode:')) { const m = c.slice(5) as Mode; this.modes[m] = !this.modes[m]; }
     else if (c === 'globe') { this.globe = !this.globe; }
     else if (c === 'swap') { [this.from, this.to] = [this.to, this.from]; }
+    else if (c === 'overworld') { this.g.enterWorld('zixel'); return; }
+    else if (c === 'course') {
+      const modes = (Object.keys(this.modes) as Mode[]).filter((m) => this.modes[m]);
+      if (this.g.world.setCourse(this.to, modes)) { this.g.closeHoloBand(); return; }
+    }
     else if (c === 'from' || c === 'to') {
       const list = this.places();
       const cur = c === 'from' ? this.from : this.to;
@@ -194,6 +201,8 @@ export class PlanetMap {
       if (r.mode === 'air' && this.layers.air) line(routeGeometry(r), 'rgba(232,226,208,0.7)', 1.2, [2, 4]);
     }
     if (this.trip) for (const l of this.trip.legs) line(routeGeometry(l.route), '#ffffff', 3.2 * Math.max(0.8, s));
+    const me = this.g.state.world;
+    if (me) { const [a, b] = P([me.x, me.y]); x.strokeStyle = '#6fd3e0'; x.lineWidth = 2; x.beginPath(); x.moveTo(a - 7, b); x.lineTo(a + 7, b); x.moveTo(a, b - 7); x.lineTo(a, b + 7); x.stroke(); x.fillStyle = '#6fd3e0'; x.fillText('CEDRIC', a + 8, b - 6); }
     const fs = Math.max(9, 11 * s * 1.3);
     x.font = `${fs}px 'Share Tech Mono', monospace`;
     if (this.layers.labels) {

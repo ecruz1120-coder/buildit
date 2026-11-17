@@ -15,7 +15,7 @@ export class HoloBand {
   open = false;
   tab: Tab = 'CASE';
   nav = new Nav(() => root().querySelector('.body') as HTMLElement);
-  private scale = 0;
+  scale = 0;
   private selEvidence = '';
   private answers: Record<string, { a: number; e: string }> = {};
   private lastTab = '';
@@ -30,6 +30,7 @@ export class HoloBand {
     this.g.markDirective('holoband');
     this.render();
   }
+  showPlanet() { this.tab = 'MAP'; this.scale = 4; this.show('MAP'); }
   close() { this.open = false; this.lastTab = ''; this.planet.unmount(); root().classList.add('hidden'); root().innerHTML = ''; }
 
   private setTab(t: Tab) { this.tab = t; if (t === 'MAP') this.g.markDirective('map'); this.render(); }

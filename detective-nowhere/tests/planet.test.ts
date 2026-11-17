@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { WORLD, NODE, greatCircleKm, planTrip, pxToLatLon, routeKm, type Px } from '../src/world/planet';
+import { WORLD, NODE, greatCircleKm, planTrip, pxToLatLon, routeKm, pxDeltaKm, type Px } from '../src/world/planet';
 
 const CITIES = WORLD.nodes.filter((n) => n.kind === 'city' && n.map_no).map((n) => n.id);
 
@@ -13,6 +13,10 @@ describe('Ryzen-5 projection & scale', () => {
   });
   it('no two mapped places are farther apart than the stated 6,145 km', () => {
     for (const a of WORLD.nodes) for (const b of WORLD.nodes) expect(greatCircleKm(a.px, b.px)).toBeLessThanOrEqual(6145);
+  });
+  it('overland movement converts pixels to km with latitude', () => {
+    expect(pxDeltaKm([700, 512], 166, 0)).toBeCloseTo(1000, -1);
+    expect(pxDeltaKm([700, 171], 166, 0)).toBeCloseTo(500, -1); // 60°N
   });
   it('prime meridian runs through Zixel', () => { expect(pxToLatLon(NODE.get('zixel')!.px).lon).toBeCloseTo(0); });
 });
@@ -38,5 +42,21 @@ describe('route network', () => {
   });
   it('trade corridors follow connected places', () => {
     for (const c of WORLD.trade_corridors) for (const id of c.path) expect(NODE.get(id), `${c.id}:${id}`).toBeDefined();
+  });
+});
+
+describe('atlas corrections (user, Nov 2026)', () => {
+  it('Kitsah is the "2" closest to Zixel; Soledad is city 9', () => {
+    const z = NODE.get('zixel')!.px;
+    expect(greatCircleKm(z, NODE.get('kitsah')!.px)).toBeLessThan(greatCircleKm(z, NODE.get('soledad')!.px));
+    expect(NODE.get('soledad')!.map_no).toBe(9);
+    expect(NODE.get('soledad')!.pop).toBe(350000);
+    expect(NODE.get('soledad')!.area_km2).toBe(38);
+  });
+  it('no duplicate numbers among cities or among outposts', () => {
+    for (const kind of ['city', 'outpost']) {
+      const nums = WORLD.nodes.filter((n) => n.kind === kind && n.map_no).map((n) => n.map_no);
+      expect(new Set(nums).size, kind).toBe(nums.length);
+    }
   });
 });

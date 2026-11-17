@@ -161,3 +161,19 @@ canvas.map { background: #07131c; border: 1px solid var(--cyan2); image-renderin
 .planet .scales .nav { font-size: 11px; padding: 4px 8px; }
 .planet .pm-side .list .nav { font-size: 12px; }
 @media (max-width: 760px) { .planet { grid-template-columns: 1fr; } }
+
+/* Overworld */
+#hud.world > :not(#toasts) { display: none !important; }
+#wlabels > div { position: absolute; transform: translate(-50%, -100%); font-size: 11px; white-space: nowrap; pointer-events: none; }
+#wlabels .name { color: var(--cream); background: #0b1220b0; padding: 1px 5px; }
+#wlabels .name.conf { color: #0b1220; background: var(--cyan); }
+#worldhud { position: absolute; inset: 0; pointer-events: none; }
+#worldhud .wtop { position: absolute; top: 0; left: 0; right: 0; display: flex; gap: 18px; flex-wrap: wrap; padding: 10px 16px; background: linear-gradient(#0b1220ee, #0b122000); font-size: 13px; letter-spacing: 1px; color: var(--muted); }
+#worldhud .wtop .c { color: var(--cyan); }
+#worldhud .wprompt { position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%); font-size: 14px; background: #0b1220e6; border: 1px solid var(--cyan2); padding: 6px 14px; white-space: nowrap; }
+#worldhud .wprompt:empty { display: none; }
+#worldhud .whints { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); font-size: 11px; color: var(--muted); background: #0e1522bb; padding: 6px 10px; border: 1px solid #1f3040; white-space: nowrap; }
+#worldpanel { right: 16px; top: 52px; width: min(420px, 92vw); max-height: calc(100% - 120px); overflow: auto; padding: 14px 16px; font-size: 13px; z-index: 5; }
+#worldpanel h3 { font-family: var(--head); color: var(--cyan); margin: 2px 0 8px; font-size: 20px; letter-spacing: 1px; }
+#worldpanel .kind { color: var(--cyan); font-size: 11px; letter-spacing: 2px; }
+#worldpanel .list .nav { width: 100%; font-size: 12px; }

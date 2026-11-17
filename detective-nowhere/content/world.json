@@ -69,8 +69,8 @@
    "name": "Kitsah",
    "kind": "city",
    "px": [
-    470,
-    620
+    787,
+    358
    ],
    "map_no": 2,
    "type": "Transit Hub",
@@ -80,9 +80,27 @@
    "roles": [
     "transit_hub",
     "airship_hub",
+    "road_hub"
+   ],
+   "notes": "Peacekeep office (Sgt. Alaric Dane); gambling side missions. The \"2\" closest to Zixel (atlas glyph is garbled) — per user, Nov 2026."
+  },
+  {
+   "id": "soledad",
+   "name": "Soledad",
+   "kind": "city",
+   "px": [
+    470,
+    620
+   ],
+   "map_no": 9,
+   "type": "City",
+   "pop": 350000,
+   "area_km2": 38,
+   "gameplay": "available",
+   "roles": [
     "port"
    ],
-   "notes": "Peacekeep office (Sgt. Alaric Dane); gambling side missions."
+   "notes": "City 9 — not in the atlas panel; the atlas mislabels it \"2\". Per user, Nov 2026."
   },
   {
    "id": "port_veyra",
@@ -195,22 +213,6 @@
    "notes": "Act IV, Southreach (southern continent). Early Chimera labs."
   },
   {
-   "id": "unknown_city_n",
-   "name": "Unidentified city marker",
-   "kind": "city",
-   "px": [
-    787,
-    358
-   ],
-   "map_no": null,
-   "type": "Unlisted (drawn as a city, numbered \"3\")",
-   "gameplay": "available",
-   "roles": [
-    "road_hub"
-   ],
-   "unresolved": "Atlas shows a city icon labelled \"3\" north of Zixel, but city 3 (Port Veyra) is on the west coast. Needs a name."
-  },
-  {
    "id": "blackrock_station",
    "name": "Blackrock Station",
    "kind": "outpost",
@@ -222,7 +224,7 @@
    "pop": 1700,
    "area_km2": 2,
    "gameplay": "available",
-   "unresolved": "Three triangles are printed \"3\" (two on the Ashen Reach, one on Southreach). Name assigned provisionally to the western Ashen Reach marker."
+   "unresolved": "Atlas printed \"3\" three times; this (western Ashen Reach) marker keeps Blackrock Station — provisional."
   },
   {
    "id": "dustwall_camp",
@@ -287,8 +289,7 @@
    "map_no": 9,
    "pop": 800,
    "area_km2": 1,
-   "gameplay": "available",
-   "unresolved": "A second \"9\" is printed on Southreach."
+   "gameplay": "available"
   },
   {
    "id": "dry_river_post",
@@ -327,8 +328,7 @@
    "map_no": 12,
    "pop": 1600,
    "area_km2": 2,
-   "gameplay": "available",
-   "unresolved": "A second \"12\" is printed north of the Razorback Ranges."
+   "gameplay": "available"
   },
   {
    "id": "sandglass_camp",
@@ -371,52 +371,62 @@
    "gameplay": "available"
   },
   {
-   "id": "site_ashen_e",
-   "name": "Unnamed outpost (printed \"3\")",
-   "kind": "outpost",
-   "px": [
-    734,
-    172
-   ],
-   "map_no": null,
-   "gameplay": "available",
-   "unresolved": "Duplicate number on atlas (Ashen Reach, east (below Hive Beta)). Candidate names: Red Mesa Post, Scorpion Watch, Coyote Crossing."
-  },
-  {
-   "id": "site_south_e",
-   "name": "Unnamed outpost (printed \"3\")",
-   "kind": "outpost",
-   "px": [
-    1097,
-    805
-   ],
-   "map_no": null,
-   "gameplay": "available",
-   "unresolved": "Duplicate number on atlas (Southreach, east coast). Candidate names: Red Mesa Post, Scorpion Watch, Coyote Crossing."
-  },
-  {
-   "id": "site_south_w",
-   "name": "Unnamed outpost (printed \"9\")",
-   "kind": "outpost",
-   "px": [
-    785,
-    872
-   ],
-   "map_no": null,
-   "gameplay": "available",
-   "unresolved": "Duplicate number on atlas (Southreach, south-west). Candidate names: Red Mesa Post, Scorpion Watch, Coyote Crossing."
-  },
-  {
-   "id": "site_north_w",
-   "name": "Unnamed outpost (printed \"12\")",
+   "id": "red_mesa_post",
+   "name": "Red Mesa Post",
    "kind": "outpost",
    "px": [
     618,
     330
    ],
-   "map_no": null,
+   "map_no": 1,
    "gameplay": "available",
-   "unresolved": "Duplicate number on atlas (Northern Meridian, west of the Titanspine). Candidate names: Red Mesa Post, Scorpion Watch, Coyote Crossing."
+   "renumbered": true,
+   "unresolved": "Provisional placement — Printed \"12\" (duplicate). Mesa/badland country west of the Titanspine.",
+   "pop": 4600,
+   "area_km2": 3
+  },
+  {
+   "id": "scorpion_watch",
+   "name": "Scorpion Watch",
+   "kind": "outpost",
+   "px": [
+    734,
+    172
+   ],
+   "map_no": 2,
+   "gameplay": "available",
+   "renumbered": true,
+   "unresolved": "Provisional placement — Printed \"3\" (duplicate). Watch post on the Ashen Reach below Hive Beta.",
+   "pop": 2800,
+   "area_km2": 2
+  },
+  {
+   "id": "coyote_crossing",
+   "name": "Coyote Crossing",
+   "kind": "outpost",
+   "px": [
+    785,
+    872
+   ],
+   "map_no": 8,
+   "gameplay": "available",
+   "renumbered": true,
+   "unresolved": "Provisional placement — Printed \"9\" (duplicate). Southreach, south-west.",
+   "pop": 1100,
+   "area_km2": 2
+  },
+  {
+   "id": "outpost_16",
+   "name": "Outpost 16 (unnamed)",
+   "kind": "outpost",
+   "px": [
+    1097,
+    805
+   ],
+   "map_no": 16,
+   "gameplay": "available",
+   "renumbered": true,
+   "unresolved": "Provisional placement — Printed \"3\" (duplicate). Southreach east coast. Needs a name, population and size."
   },
   {
    "id": "hive_alpha",
@@ -525,8 +535,8 @@
    ]
   },
   {
-   "id": "kitsah_port",
-   "name": "Kitsah Docks",
+   "id": "soledad_docks",
+   "name": "Soledad Docks",
    "kind": "port",
    "px": [
     468,
@@ -579,9 +589,9 @@
    ]
   },
   {
-   "id": "port_veyra__kitsah",
+   "id": "port_veyra__soledad",
    "a": "port_veyra",
-   "b": "kitsah",
+   "b": "soledad",
    "mode": "road",
    "confidence": "traced",
    "px": [
@@ -733,9 +743,9 @@
    ]
   },
   {
-   "id": "j_meridian_sw__kitsah",
+   "id": "j_meridian_sw__soledad",
    "a": "j_meridian_sw",
-   "b": "kitsah",
+   "b": "soledad",
    "mode": "road",
    "confidence": "inferred",
    "px": [
@@ -824,9 +834,9 @@
    ]
   },
   {
-   "id": "zixel__unknown_city_n",
+   "id": "zixel__kitsah",
    "a": "zixel",
-   "b": "unknown_city_n",
+   "b": "kitsah",
    "mode": "road",
    "confidence": "traced",
    "px": [
@@ -853,8 +863,8 @@
    ]
   },
   {
-   "id": "unknown_city_n__titanspine_pass",
-   "a": "unknown_city_n",
+   "id": "kitsah__titanspine_pass",
+   "a": "kitsah",
    "b": "titanspine_pass",
    "mode": "road",
    "confidence": "traced",
@@ -874,8 +884,8 @@
    ]
   },
   {
-   "id": "unknown_city_n__dunefall",
-   "a": "unknown_city_n",
+   "id": "kitsah__dunefall",
+   "a": "kitsah",
    "b": "dunefall",
    "mode": "road",
    "confidence": "traced",
@@ -903,8 +913,8 @@
    ]
   },
   {
-   "id": "unknown_city_n__j_titan_south",
-   "a": "unknown_city_n",
+   "id": "kitsah__j_titan_south",
+   "a": "kitsah",
    "b": "j_titan_south",
    "mode": "road",
    "confidence": "traced",
@@ -1032,8 +1042,8 @@
    ]
   },
   {
-   "id": "unknown_city_n__dustwall_camp",
-   "a": "unknown_city_n",
+   "id": "kitsah__dustwall_camp",
+   "a": "kitsah",
    "b": "dustwall_camp",
    "mode": "road",
    "confidence": "traced",
@@ -1261,9 +1271,9 @@
    ]
   },
   {
-   "id": "hive_beta__site_ashen_e",
+   "id": "hive_beta__scorpion_watch",
    "a": "hive_beta",
-   "b": "site_ashen_e",
+   "b": "scorpion_watch",
    "mode": "road",
    "confidence": "traced",
    "px": [
@@ -1341,9 +1351,9 @@
    ]
   },
   {
-   "id": "kitsah__kitsah_port",
-   "a": "kitsah",
-   "b": "kitsah_port",
+   "id": "soledad__soledad_docks",
+   "a": "soledad",
+   "b": "soledad_docks",
    "mode": "road",
    "confidence": "inferred",
    "px": [
@@ -1392,9 +1402,9 @@
    ]
   },
   {
-   "id": "sea:port_veyra_docks__kitsah_port",
+   "id": "sea:port_veyra_docks__soledad_docks",
    "a": "port_veyra_docks",
-   "b": "kitsah_port",
+   "b": "soledad_docks",
    "mode": "sea",
    "confidence": "proposed",
    "px": [
@@ -1421,8 +1431,8 @@
    ]
   },
   {
-   "id": "sea:kitsah_port__ardent_docks",
-   "a": "kitsah_port",
+   "id": "sea:soledad_docks__ardent_docks",
+   "a": "soledad_docks",
    "b": "ardent_docks",
    "mode": "sea",
    "confidence": "proposed",
@@ -1546,6 +1556,14 @@
    "px": []
   },
   {
+   "id": "air:zixel__soledad",
+   "a": "zixel",
+   "b": "soledad",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
    "id": "air:zixel__port_veyra",
    "a": "zixel",
    "b": "port_veyra",
@@ -1594,6 +1612,14 @@
    "px": []
   },
   {
+   "id": "air:kitsah__titan_watch",
+   "a": "kitsah",
+   "b": "titan_watch",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
    "id": "air:kessar_bay__wayfarers_rest",
    "a": "kessar_bay",
    "b": "wayfarers_rest",
@@ -1609,7 +1635,7 @@
    "status": "derived from atlas roads",
    "path": [
     "port_veyra",
-    "kitsah",
+    "soledad",
     "j_meridian_sw",
     "zixel",
     "dunefall",
@@ -1646,7 +1672,7 @@
    "status": "derived from atlas roads",
    "path": [
     "zixel",
-    "unknown_city_n",
+    "kitsah",
     "j_titan_south",
     "titan_watch"
    ],
@@ -1702,7 +1728,7 @@
    "status": "proposed",
    "path": [
     "port_veyra_docks",
-    "kitsah_port",
+    "soledad_docks",
     "ardent_docks",
     "wayfarers_landing"
    ],
@@ -1893,8 +1919,9 @@
   }
  ],
  "open_questions": [
-  "Outposts Red Mesa Post (1), Scorpion Watch (2) and Coyote Crossing (8) have no marker on the atlas, while numbers 3, 9 and 12 are printed more than once. Assign names to the duplicate markers.",
-  "An unnamed city icon numbered \"3\" sits north of Zixel (Port Veyra is city 3 on the west coast).",
+  "RESOLVED (user): Kitsah is the garbled \"2\" north of Zixel; the \"2\" on the south-west coast is city 9, Soledad (pop 350,000, 38 km²).",
+  "PROVISIONAL: duplicate outpost markers renumbered — Red Mesa Post (1) = printed \"12\" W of Titanspine; Scorpion Watch (2) = printed \"3\" on the Ashen Reach; Coyote Crossing (8) = printed \"9\" on Southreach; Southreach east \"3\" = new Outpost 16 (needs a name). Blackrock Station stays on the western Ashen Reach \"3\".",
+  "Soledad (city 9) needs a city type (coastal? port?) — set to \"City\" for now.",
   "A stray \"7\" label is printed beside Kessar Bay with no outpost triangle.",
   "Kessar Bay is listed as a coastal city but drawn ~120 km inland on the River Kessar.",
   "Atlas land covers ~30% of the sphere (~40% of the mapped 270 deg), but the stated surface water is 38% (62% land).",

@@ -27,6 +27,8 @@ export interface GameState {
   sweep: { phase: EventPhase; remaining: number };
   journal: string[];
   stats: { xpLog: { label: string; amount: number }[] };
+  /** Overworld travel state (atlas pixel position on Ryzen-5). */
+  world?: { active: boolean; x: number; y: number; discovered: string[]; odometer: number };
 }
 
 export function newGame(seed = (Date.now() & 0xffffff) ^ 0x5eed): GameState {

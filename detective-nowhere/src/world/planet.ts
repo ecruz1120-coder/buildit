@@ -127,3 +127,13 @@ export function fmtHours(h: number): string {
   const rest = h - sols * WORLD.planet.hours_per_sol;
   return sols ? `${sols} sol ${rest.toFixed(1)} h` : `${h.toFixed(1)} h`;
 }
+
+/** Kilometres covered by a small move of (dx, dy) atlas pixels at atlas point p (east-west shrinks with latitude). */
+export function pxDeltaKm(p: Px, dx: number, dy: number): number {
+  const k = WORLD.projection.km_per_px_at_equator;
+  const c = Math.cos(rad(pxToLatLon(p).lat));
+  return Math.hypot(dx * k * c, dy * k);
+}
+
+/** Overland speeds (km/h) by terrain when moving freely. Proposed tuning. */
+export const OVERLAND_KMH = { road: 55, offroad: 22, rough: 9 };

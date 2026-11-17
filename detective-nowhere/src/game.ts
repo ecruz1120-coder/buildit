@@ -16,10 +16,12 @@ import { Inspector } from './ui/inspector';
 import { Terminal } from './ui/terminal';
 import { Qte } from './ui/qte';
 import { ChaseMode } from './modes/chase';
+import { Overworld } from './modes/overworld';
+import { NODE } from './world/planet';
 import { Nav, esc } from './ui/nav';
 import { box } from './render/props';
 
-type Mode = 'title' | 'play' | 'dialogue' | 'menu' | 'inspect' | 'hack' | 'qte' | 'chase' | 'transition' | 'over';
+type Mode = 'title' | 'play' | 'dialogue' | 'menu' | 'inspect' | 'hack' | 'qte' | 'chase' | 'transition' | 'over' | 'world';
 
 interface Interactable { id: string; floor: number; x: number; z: number; r?: number; clue?: boolean; label: () => string | null; act: () => void; }
 interface Bullet { mesh: THREE.Mesh; x: number; z: number; vx: number; vz: number; floor: number; from: 'player' | 'npc'; life: number; }
@@ -48,6 +50,9 @@ export class Game {
   readonly terminal: Terminal;
   readonly qte: Qte;
   chase!: ChaseMode;
+  world!: Overworld;
+  /** True while the player is on the Ryzen-5 overworld (menus opened there return to it). */
+  inWorld = false;
   level!: Level;
   player!: PlayerActor;
   npcs = new Map<string, NpcActor>();
@@ -102,6 +107,8 @@ export class Game {
     ring.rotation.x = -Math.PI / 2; ring.position.y = 0.03; ring.renderOrder = 3;
     this.player.root.add(ring);
     this.chase = new ChaseMode(this);
+    this.world = new Overworld(this);
+    this.world.init().catch((e) => console.error('Overworld failed to load', e));
     // Interior point lights (practical lighting, Bible §1)
     const lights: [number, number, number, string][] = [[3, 0, 3, '#ffcf9a'], [15, 0, 3, '#ffcf9a'], [9.5, 0, 10, '#cfe6ff'], [4, 1, 10.8, '#ffb48a'], [9.5, 1, 6.6, '#cfe6ff'], [17, 0, 22, '#ff9a6a']];
     for (const [x, f, z, c] of lights) { const l = new THREE.PointLight(c, 14, 10, 1.4); l.position.set(x, 2.4, z); this.level.floorGroups[f].add(l); }
@@ -162,6 +169,8 @@ export class Game {
     this.hideOverlay();
     this.hud.show(true);
     this.snapCamera();
+    if (this.inWorld) { this.inWorld = false; this.world.exit(); }
+    if (this.state.world?.active) this.enterWorld();
   }
 
   snapshot(): GameState {
@@ -631,7 +640,34 @@ export class Game {
     this.mode = 'inspect';
     this.inspector.show(evId, () => { if (fromMenu) { this.mode = 'menu'; this.holo.show('EVIDENCE'); } else this.mode = 'play'; });
   }
-  closeHoloBand() { this.holo.close(); this.mode = 'play'; }
+  closeHoloBand() { this.holo.close(); this.mode = this.inWorld ? 'world' : 'play'; }
+
+  // ───────────────────────────── overworld ─────────────────────────────
+  /** Step out onto the Ryzen-5 overworld (defaults to Zixel, where Kaelis Row is). */
+  enterWorld(at = 'zixel') {
+    if (!this.world.ready) { this.hud.toast('Loading planetary survey…'); setTimeout(() => this.enterWorld(at), 400); return; }
+    const s = this.state;
+    if (!s.world) { const p = NODE.get(at)!.px; s.world = { active: true, x: p[0], y: p[1] + 4, discovered: [], odometer: 0 }; }
+    s.world.active = true;
+    this.inWorld = true;
+    this.holo.close(); this.hideOverlay();
+    this.hud.show(true);
+    this.world.enter();
+    this.mode = 'world';
+    this.hud.toast('RYZEN-5 OVERWORLD', '', 'Roads are fastest; mountains are slow; water needs a ferry or airship.');
+  }
+  /** Back into the Kaelis Row training block (Zixel). */
+  leaveWorld() {
+    if (this.state.world) this.state.world.active = false;
+    this.inWorld = false;
+    this.world.exit();
+    this.fade(() => { this.mode = 'play'; });
+    this.mode = 'play';
+  }
+  openHoloPlanet() {
+    if (this.inWorld) { const n = this.world.nearestNode(9999); if (n) this.holo.planet.from = n.id; }
+    this.mode = 'menu'; this.holo.showPlanet();
+  }
 
   // ───────────────────────────── overlays ─────────────────────────────
   overlay(html: string, actions: Record<string, () => void>) {
@@ -657,9 +693,9 @@ export class Game {
     this.overlay(`<div class="screen"><h1>DETECTIVE NOWHERE</h1><h2>OPENING BUILD TUTORIAL · HOLOBAND TRAINING SIMULATION ${esc(CONTENT.case_id)}</h2>
       <p>${CONTENT.briefing.map(esc).join('<br/>')}</p>
       <p class="muted" style="font-size:12px">${esc(CONTENT.canon_note)}</p>
-      <div class="menu"><button class="nav" data-act="new">BEGIN SIMULATION</button>${has ? '<button class="nav" data-act="cont">CONTINUE (QUICK SAVE)</button>' : ''}<button class="nav" data-act="seed">BEGIN WITH SEED 1234 (reproducible)</button></div>
+      <div class="menu"><button class="nav" data-act="new">BEGIN SIMULATION</button>${has ? '<button class="nav" data-act="cont">CONTINUE (QUICK SAVE)</button>' : ''}<button class="nav" data-act="seed">BEGIN WITH SEED 1234 (reproducible)</button><button class="nav" data-act="world">TRAVEL RYZEN-5 (OVERWORLD)</button></div>
       <p class="muted" style="font-size:12px;margin-top:16px">Keyboard + mouse or Xbox controller. Press any controller button to switch prompts.</p></div>`,
-      { new: () => this.newRun(), cont: () => { const g = loadGame(); if (g) this.loadState(g); }, seed: () => this.newRun(1234) });
+      { new: () => this.newRun(), cont: () => { const g = loadGame(); if (g) this.loadState(g); }, seed: () => this.newRun(1234), world: () => { this.loadState(newGame()); this.enterWorld('zixel'); } });
   }
 
   private showBriefing() {
@@ -695,6 +731,7 @@ export class Game {
       case 'hack': this.updateHack(dt); break;
       case 'qte': this.qte.update(dt); this.updateWorld(dt * 0.08); break;
       case 'chase': this.chase.update(dt); break;
+      case 'world': this.world.update(dt); break;
       case 'title': case 'over': this.overlayNav.update(inp); break;
     }
     this.render(dt);
@@ -1096,6 +1133,13 @@ export class Game {
     u.uTime.value = this.time;
     this.damageT = Math.max(0, this.damageT - dt);
     u.uDamage.value = this.damageT * 1.6;
+    if (this.inWorld && this.world.ready) {
+      u.uScan.value = 0;
+      if (this.mode !== 'world') this.world.update(dt, false);
+      this.pixel.render(this.world.scene, this.world.camera);
+      if (this.mode !== 'world') this.hud.prompt('');
+      return;
+    }
     if (this.mode === 'chase') {
       u.uScan.value = 0;
       this.pixel.render(this.chase.scene, this.chase.camera);
