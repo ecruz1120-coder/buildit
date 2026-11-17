@@ -1,0 +1,1189 @@
+{
+  "schema_version": "3.0.0-tutorial",
+  "case_id": "KR-00",
+  "title": "HoloBand Training Simulation KR-00 — The Quiet Tenant",
+  "canon_note": "Mock investigation for mechanics testing. Training NPCs (Tamsin, Pim, Brun, Corin, Dax, Warden Sato, drill crew) are simulation constructs, NOT canon cast. Mirrors P001–P004 + P012 mechanics without spoiling them.",
+  "briefing": [
+    "HoloBand Training Simulation KR-00 initialised.",
+    "Location (simulated): a Kaelis Row–style tenement block, two floors and a rear courtyard.",
+    "Tenant Corin Ashe (Apt 2B) has not been seen since 13:00. Find out what happened, where he is, and prove it.",
+    "Witnesses expire. Choices lock. Nothing is conjured for you — every lead must be earned."
+  ],
+  "npcs": {
+    "tamsin": {
+      "name": "Mrs. Oda Tamsin",
+      "role": "Landlady, Apt 1A — trust-gated witness",
+      "floor": 0,
+      "x": 3.5,
+      "z": 3.2,
+      "facing": 0,
+      "look": {
+        "skin": "#7aa6c9",
+        "coat": "#6b4a6e",
+        "hair": "#d8d0c0",
+        "height": 0.9
+      },
+      "dialogue": "t_start"
+    },
+    "pim": {
+      "name": "Pim Hollis",
+      "role": "Tenant, Apt 1B — moving out at 17:00 (timed)",
+      "floor": 0,
+      "x": 14.5,
+      "z": 3.5,
+      "facing": 0,
+      "look": {
+        "skin": "#c9a27a",
+        "coat": "#3f6b5a",
+        "hair": "#2a2a2a",
+        "height": 1.0
+      },
+      "dialogue": "p_start",
+      "leaves_at": "17:00"
+    },
+    "brun": {
+      "name": "Desk Officer Brun",
+      "role": "Lobby security — Suggestion gate",
+      "floor": 0,
+      "x": 15.5,
+      "z": 11.4,
+      "facing": 3.14159,
+      "look": {
+        "skin": "#9a8f7a",
+        "coat": "#2c3b55",
+        "hair": "#111111",
+        "height": 1.08
+      },
+      "dialogue": "b_start"
+    },
+    "warden": {
+      "name": "Yard Warden Sato",
+      "role": "Courtyard gate guard — patrols the shed yard",
+      "floor": 0,
+      "x": 12.5,
+      "z": 18.5,
+      "facing": 3.14159,
+      "look": {
+        "skin": "#b06a5a",
+        "coat": "#55524a",
+        "hair": "#2a1a12",
+        "height": 1.1
+      },
+      "dialogue": "w_start",
+      "patrol": [
+        [
+          12.5,
+          18.5
+        ],
+        [
+          12.5,
+          23.2
+        ],
+        [
+          13.8,
+          23.2
+        ],
+        [
+          13.8,
+          18.5
+        ]
+      ]
+    },
+    "corin": {
+      "name": "Corin Ashe",
+      "role": "Missing tenant, Apt 2B",
+      "floor": 0,
+      "x": 17.5,
+      "z": 22.6,
+      "facing": 4.71,
+      "look": {
+        "skin": "#8fb88a",
+        "coat": "#7a6a4a",
+        "hair": "#c26a2a",
+        "height": 0.98
+      },
+      "dialogue": "c_start"
+    },
+    "dax": {
+      "name": "Dax Morrow",
+      "role": "Lookout — the runner",
+      "floor": 0,
+      "x": 18.3,
+      "z": 21.6,
+      "facing": 1.57,
+      "look": {
+        "skin": "#c98a7a",
+        "coat": "#2b2b2b",
+        "hair": "#6a6a6a",
+        "height": 0.95
+      }
+    },
+    "op_b1": {
+      "name": "Drill Operative B1",
+      "role": "Sweep drill crew",
+      "floor": 1,
+      "x": 8.5,
+      "z": 3.5,
+      "facing": 3.14159,
+      "look": {
+        "skin": "#6f6f78",
+        "coat": "#4d5560",
+        "hair": "#222222",
+        "height": 1.06,
+        "mask": true
+      },
+      "dialogue": "s_start"
+    },
+    "op_b2": {
+      "name": "Drill Operative B2",
+      "role": "Sweep drill crew",
+      "floor": 1,
+      "x": 8.5,
+      "z": 2.5,
+      "facing": 3.14159,
+      "look": {
+        "skin": "#6f6f78",
+        "coat": "#4d5560",
+        "hair": "#222222",
+        "height": 1.02,
+        "mask": true
+      },
+      "dialogue": "s_start"
+    }
+  },
+  "evidence": {
+    "ev_tamsin_testimony": {
+      "name": "Tamsin's Testimony",
+      "kind": "Testimony",
+      "desc": "Around 13:10 two people in grey with cheap filter masks went upstairs carrying a long tool case."
+    },
+    "ev_doorcam": {
+      "name": "Door-cam Footage (1A)",
+      "kind": "Footage",
+      "desc": "13:10 — two masked figures in grey drill fatigues climb the stairs with a tool case. Faces obscured."
+    },
+    "ev_lobbycam": {
+      "name": "Lobby Camera Footage",
+      "kind": "Footage",
+      "desc": "13:22 — Corin Ashe is walked out of the rear lobby door between two grey figures. He is alive and on his feet, head down."
+    },
+    "ev_footage_link": {
+      "name": "Footage Correlation",
+      "kind": "Analysis",
+      "desc": "Door-cam + lobby cam combined: the same two masked visitors who arrived at 13:10 escorted Corin out at 13:22. Only both videos together make this link."
+    },
+    "ev_pim_statement": {
+      "name": "Pim's Statement",
+      "kind": "Testimony",
+      "desc": "Heard something dragged down the stairs around 13:20, then the courtyard yard-gate squeal. 'That gate always squeaks.'"
+    },
+    "ev_corin_letter": {
+      "name": "Corin's Warning Note",
+      "kind": "Document",
+      "desc": "Hand-written: 'If I go quiet — the grab crews run their drills out of the yard shed.' Something is scratched into the corner.",
+      "model": "note",
+      "detail": {
+        "id": "note_code",
+        "label": "Scratched corner",
+        "text": "Scratched faintly into the paper: 'S-4'. A crew code?",
+        "flags": [
+          "know_code"
+        ]
+      }
+    },
+    "ev_tracker_pings": {
+      "name": "Anonymous Hourly Pings",
+      "kind": "Digital",
+      "desc": "Corin's terminal logged an anonymous tracker beacon pinging hourly. Last three pings: courtyard sector S-4 — the utility shed.",
+      "flags": [
+        "know_shed"
+      ]
+    },
+    "ev_bootprint": {
+      "name": "Boot Print",
+      "kind": "Forensic",
+      "desc": "A heavy tread boot print on 2B's floor. Not Corin's size.",
+      "model": "boot",
+      "detail": {
+        "id": "boot_grit",
+        "label": "Tread grit",
+        "text": "Rust-orange paint grit packed in the tread. Something freshly painted — or freshly scraped.",
+        "flags": [
+          "grit_found"
+        ]
+      }
+    },
+    "ev_glove": {
+      "name": "Torn Drill Glove",
+      "kind": "Forensic",
+      "desc": "A grey tactical glove snagged on the window latch. Torn at the cuff.",
+      "model": "glove",
+      "detail": {
+        "id": "glove_insignia",
+        "label": "Cuff stitching",
+        "text": "Inside the cuff: stitched insignia 'S-4 DRILL'. Crew code: S-4.",
+        "flags": [
+          "know_code",
+          "glove_insignia"
+        ]
+      }
+    },
+    "ev_keycard": {
+      "name": "Utility Keycard",
+      "kind": "Forensic",
+      "desc": "A scuffed access card found under Corin's bed. Not issued to tenants.",
+      "model": "card",
+      "detail": {
+        "id": "card_stripe",
+        "label": "Mag stripe label",
+        "text": "Label on the stripe: 'YARD UTIL — S-4'. This opens the courtyard shed.",
+        "flags": [
+          "know_shed",
+          "keycard_read"
+        ]
+      }
+    },
+    "ev_shed_paint": {
+      "name": "Shed Door Paint",
+      "kind": "Forensic",
+      "desc": "The shed door has been freshly re-painted rust orange; the lower edge is scraped.",
+      "flags": [
+        "shed_paint_seen"
+      ]
+    },
+    "ev_grit_match": {
+      "name": "Grit Match",
+      "kind": "Analysis",
+      "desc": "The rust-orange grit in the 2B boot print matches the scraped shed door paint. Whoever stood in 2B had been at the shed."
+    },
+    "ev_corin_testimony": {
+      "name": "Corin's Testimony",
+      "kind": "Testimony",
+      "desc": "Corin found a drill roster on the stairs. The S-4 crew came for it, walked him out alive at gunpoint, and held him in the shed for transfer tonight."
+    },
+    "ev_runner_ledger": {
+      "name": "Runner's Ledger",
+      "kind": "Document",
+      "desc": "Dax Morrow's ledger: 'Item T. Ashe received S-4 shed 13:25. Signed B1/B2. Transfer 22:00.'"
+    },
+    "ev_ledger_scrap": {
+      "name": "Ledger Scrap",
+      "kind": "Document",
+      "desc": "A torn page the runner dropped: '...Ashe ... S-4 ... 22:00'. Partial."
+    }
+  },
+  "items": {
+    "holoband": {
+      "name": "HoloBand",
+      "desc": "Wrist interface — maps, evidence, journal, nodes. [Tab / View]"
+    },
+    "scalpel": {
+      "name": "Surgical Scalpel",
+      "desc": "Cedric's signature blade. Silent takedowns, close combat. [F / X]"
+    },
+    "mimic": {
+      "name": "Mimic Device",
+      "desc": "Copies an appearance from a subdued (not firefight) target. Copies the face — not the knowledge, codes or credentials. [M / RB]"
+    },
+    "pistol": {
+      "name": "Service Pistol",
+      "desc": "Found in Corin's desk drawer. 12 rounds. [R / LMB / RT]"
+    },
+    "key_shed": {
+      "name": "Utility Keycard",
+      "desc": "Opens the courtyard utility shed."
+    }
+  },
+  "dialogues": {
+    "t_start": {
+      "speaker": "tamsin",
+      "text": "Another one knocking about Corin? If you're from the debt office, his rent's his problem, not mine.",
+      "options": [
+        {
+          "text": "I'm not here about money. I'm worried about him.",
+          "next": "t_warm",
+          "effects": {
+            "trust": {
+              "tamsin": 1
+            },
+            "xp": [
+              10,
+              "Heart",
+              "Mind"
+            ],
+            "choice": [
+              "T01",
+              "A"
+            ]
+          }
+        },
+        {
+          "text": "Debt office. Where is he?",
+          "next": "t_cold",
+          "effects": {
+            "trust": {
+              "tamsin": -1
+            }
+          }
+        },
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "t_warm": {
+      "speaker": "tamsin",
+      "text": "...Worried. Well. Somebody ought to be. He brought me soup when my hip went. Ask, then.",
+      "options": [
+        {
+          "text": "When did you last see him — and was anyone with him?",
+          "next": "t_seen",
+          "effects": {
+            "trust": {
+              "tamsin": 1
+            }
+          }
+        },
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "t_cold": {
+      "speaker": "tamsin",
+      "text": "Then you can find him yourself.",
+      "options": [
+        {
+          "text": "Wait — I'm sorry. I'm not from the debt office. I'm looking for him.",
+          "next": "t_apology",
+          "effects": {
+            "trust": {
+              "tamsin": 1
+            }
+          }
+        },
+        {
+          "text": "I'll ask nicer when you answer faster.",
+          "next": "t_shut",
+          "effects": {
+            "trust": {
+              "tamsin": -2
+            }
+          }
+        }
+      ]
+    },
+    "t_apology": {
+      "speaker": "tamsin",
+      "text": "Hmph. Make it quick.",
+      "options": [
+        {
+          "text": "When did you last see him — and was anyone with him?",
+          "next": "t_seen",
+          "effects": {
+            "trust": {
+              "tamsin": 1
+            },
+            "choice": [
+              "T01",
+              "A"
+            ]
+          }
+        }
+      ]
+    },
+    "t_shut": {
+      "speaker": "tamsin",
+      "text": "(The door of 1A slams. A deadbolt turns. Then a second one.)",
+      "options": [
+        {
+          "text": "[Leave]",
+          "end": true,
+          "effects": {
+            "flag": {
+              "tamsin_shut": true
+            },
+            "lock": "Mrs. Tamsin shut her door — her testimony and door-cam are permanently unavailable."
+          }
+        }
+      ]
+    },
+    "t_seen": {
+      "speaker": "tamsin",
+      "text": "About ten past one, two people in grey went up. Masks — the cheap filter kind. Long tool case between them. My nephew's door-cam catches the stairs, if that's any use.",
+      "options": [
+        {
+          "text": "Could I see the door-cam footage?",
+          "next": "t_footage",
+          "requires": {
+            "trustAtLeast": {
+              "tamsin": 2
+            }
+          },
+          "lockedLabel": "[Trust 2 required]"
+        },
+        {
+          "text": "Thank you. Keep your door locked tonight.",
+          "end": true
+        }
+      ],
+      "effects": {
+        "evidence": "ev_tamsin_testimony",
+        "xp": [
+          15,
+          "Mind",
+          "Heart"
+        ],
+        "contact": "tamsin",
+        "time": 10
+      }
+    },
+    "t_footage": {
+      "speaker": "tamsin",
+      "text": "Here. Never watch it myself. Gives me the shivers, all those little grey people on the stairs.",
+      "options": [
+        {
+          "text": "[Take the footage] Thank you, Mrs. Tamsin.",
+          "end": true,
+          "effects": {
+            "evidence": "ev_doorcam",
+            "xp": [
+              15,
+              "Mind",
+              "Heart"
+            ]
+          }
+        }
+      ]
+    },
+    "p_start": {
+      "speaker": "pim",
+      "text": "Make it fast — transport's at seventeen hundred and half my life's still in boxes.",
+      "options": [
+        {
+          "text": "Did you notice anything about Corin Ashe, upstairs?",
+          "next": "@pim_roll",
+          "effects": {
+            "choice": [
+              "T01",
+              "B"
+            ],
+            "time": 10
+          }
+        },
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "p_witness": {
+      "speaker": "pim",
+      "text": "Today? Heard something dragged down the stairs around twenty past one. Then the yard gate squealed. That gate always squeals. Didn't look. Don't look, in this building.",
+      "options": [
+        {
+          "text": "That helps. Safe travels.",
+          "end": true
+        }
+      ],
+      "effects": {
+        "evidence": "ev_pim_statement",
+        "xp": [
+          15,
+          "Mind",
+          "Heart"
+        ],
+        "contact": "pim",
+        "flag": {
+          "know_shed": true
+        }
+      }
+    },
+    "p_letter": {
+      "speaker": "pim",
+      "text": "Corin slid this under my door last week. Said, 'If I go quiet, give it to whoever asks the right way.' You asked. Take it — I'm leaving anyway.",
+      "options": [
+        {
+          "text": "[Take the note] Thank you.",
+          "end": true
+        }
+      ],
+      "effects": {
+        "evidence": "ev_corin_letter",
+        "xp": [
+          15,
+          "Mind",
+          "Heart"
+        ],
+        "contact": "pim",
+        "flag": {
+          "know_shed": true
+        }
+      }
+    },
+    "b_start": {
+      "speaker": "brun",
+      "text": "Lobby's tenants-only after noon. And before you ask: footage is property of the building trust.",
+      "options": [
+        {
+          "text": "I only need the lobby camera, 13:00 to 13:30.",
+          "next": "b_refuse"
+        },
+        {
+          "text": "You want to show me that footage.",
+          "art": "suggestion",
+          "next": "b_suggest",
+          "effects": {
+            "choice": [
+              "T01",
+              "C"
+            ]
+          }
+        },
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "b_refuse": {
+      "speaker": "brun",
+      "text": "And I only need to keep my job. No.",
+      "options": [
+        {
+          "text": "You want to show me that footage.",
+          "art": "suggestion",
+          "next": "b_suggest",
+          "effects": {
+            "choice": [
+              "T01",
+              "C"
+            ]
+          }
+        },
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "b_suggest": {
+      "speaker": "brun",
+      "text": "(His eyes unfocus for half a breath.) ...Sure. Sure. Here — thirteen twenty-two. Look at that.",
+      "options": [
+        {
+          "text": "[Copy the footage]",
+          "end": true
+        }
+      ],
+      "effects": {
+        "evidence": "ev_lobbycam",
+        "xp": [
+          20,
+          "Mind",
+          "Root"
+        ],
+        "contact": "brun",
+        "flag": {
+          "know_shed": true
+        }
+      }
+    },
+    "s_start": {
+      "speaker": "op_b1",
+      "text": "Hands where I can see them. Who are you, and what are you doing in 2B?",
+      "options": [
+        {
+          "text": "Building maintenance. Radiator complaint.",
+          "next": "s_q2",
+          "effects": {
+            "flag": {
+              "talk_ok": 1
+            }
+          }
+        },
+        {
+          "text": "Easy. S-4 drill. They sent me ahead to clear the place.",
+          "next": "s_q2",
+          "requires": {
+            "flags": {
+              "know_code": true
+            }
+          },
+          "lockedLabel": "[Requires crew code]",
+          "effects": {
+            "flag": {
+              "talk_ok": 1
+            }
+          }
+        },
+        {
+          "text": "Peacekeep. You're both under arrest.",
+          "next": "s_fail"
+        },
+        {
+          "text": "[Draw your weapon]",
+          "action": "start_combat",
+          "end": true
+        }
+      ]
+    },
+    "s_q2": {
+      "speaker": "op_b2",
+      "text": "Maintenance doesn't open windows in a sealed unit. Why's that window open?",
+      "options": [
+        {
+          "text": "Smell in here would drop a grox. I'm airing it out.",
+          "next": "s_success"
+        },
+        {
+          "text": "Not your concern.",
+          "next": "s_fail"
+        },
+        {
+          "text": "[Draw your weapon]",
+          "action": "start_combat",
+          "end": true
+        }
+      ]
+    },
+    "s_success": {
+      "speaker": "op_b1",
+      "text": "...Fine. Stay out of our way. (They turn to tear the room apart. The window is right behind you.)",
+      "options": [
+        {
+          "text": "[Slip out the window to the fire escape]",
+          "action": "window_escape",
+          "end": true,
+          "effects": {
+            "choice": [
+              "T03",
+              "C"
+            ],
+            "xp": [
+              20,
+              "Heart",
+              "Root"
+            ]
+          }
+        }
+      ]
+    },
+    "s_fail": {
+      "speaker": "op_b1",
+      "text": "Wrong answer.",
+      "options": [
+        {
+          "text": "[Combat]",
+          "action": "start_combat",
+          "end": true
+        }
+      ]
+    },
+    "w_start": {
+      "speaker": "warden",
+      "text": "Yard's closed. Drill in progress. Move along, civilian.",
+      "options": [
+        {
+          "text": "What kind of drill?",
+          "next": "w_drill"
+        },
+        {
+          "text": "The gate was always meant to open for me.",
+          "art": "suggestion",
+          "next": "w_suggest",
+          "effects": {
+            "choice": [
+              "T04",
+              "C"
+            ]
+          }
+        },
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "w_drill": {
+      "speaker": "warden",
+      "text": "The kind you don't watch. Move.",
+      "options": [
+        {
+          "text": "The gate was always meant to open for me.",
+          "art": "suggestion",
+          "next": "w_suggest",
+          "effects": {
+            "choice": [
+              "T04",
+              "C"
+            ]
+          }
+        },
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "w_suggest": {
+      "speaker": "warden",
+      "text": "(He blinks, slow.) Right. Course it was. (The gate clanks open.)",
+      "options": [
+        {
+          "text": "[Walk through]",
+          "end": true,
+          "action": "open_gate",
+          "effects": {
+            "xp": [
+              20,
+              "Mind",
+              "Root"
+            ]
+          }
+        }
+      ]
+    },
+    "w_disguised": {
+      "speaker": "warden",
+      "text": "B1? You're early. What's the code for the shed?",
+      "options": [
+        {
+          "text": "S-4.",
+          "next": "w_pass",
+          "requires": {
+            "flags": {
+              "know_code": true
+            }
+          },
+          "lockedLabel": "[You don't know the code]"
+        },
+        {
+          "text": "...It's slipped my mind.",
+          "next": "w_nocode"
+        }
+      ]
+    },
+    "w_pass": {
+      "speaker": "warden",
+      "text": "Go on, then. Shed's open for you.",
+      "options": [
+        {
+          "text": "[Walk through]",
+          "end": true,
+          "action": "open_gate_and_shed",
+          "effects": {
+            "choice": [
+              "T04",
+              "A"
+            ],
+            "xp": [
+              25,
+              "Root",
+              "Heart"
+            ]
+          }
+        }
+      ]
+    },
+    "w_nocode": {
+      "speaker": "warden",
+      "text": "Then you wait outside like everybody else. (MIMIC: you copied a face, not the knowledge behind it.)",
+      "options": [
+        {
+          "text": "[Leave]",
+          "end": true,
+          "effects": {
+            "flag": {
+              "warden_doubt": true
+            }
+          }
+        }
+      ]
+    },
+    "c_start": {
+      "speaker": "corin",
+      "text": "You — you're not with them? Please, get these off me.",
+      "options": [
+        {
+          "text": "[Cut the ties with your scalpel]",
+          "next": "c_free"
+        }
+      ]
+    },
+    "c_free": {
+      "speaker": "corin",
+      "text": "I found a drill roster on the stairs — I didn't even read it. They walked me out at gunpoint, kept me here for a 'transfer' tonight. Twenty-two hundred.",
+      "options": [
+        {
+          "text": "You're safe. Stay behind me.",
+          "end": true
+        }
+      ],
+      "effects": {
+        "evidence": "ev_corin_testimony",
+        "xp": [
+          30,
+          "Heart",
+          "Mind"
+        ],
+        "flag": {
+          "corin_rescued": true
+        },
+        "contact": "corin"
+      }
+    },
+    "t_again": {
+      "speaker": "tamsin",
+      "text": "I've told you what I saw. Anything else?",
+      "options": [
+        {
+          "text": "Could I see the door-cam footage after all?",
+          "next": "t_footage",
+          "requires": {
+            "trustAtLeast": {
+              "tamsin": 2
+            }
+          },
+          "lockedLabel": "[Trust 2 required]"
+        },
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "p_done": {
+      "speaker": "pim",
+      "text": "Told you what I know. Mind the boxes on your way out.",
+      "options": [
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "b_done": {
+      "speaker": "brun",
+      "text": "(He's staring at the lobby monitor, faintly puzzled, as though he's forgotten why it's on.)",
+      "options": [
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "c_done": {
+      "speaker": "corin",
+      "text": "I'll stay close. Just get me out of this yard.",
+      "options": [
+        {
+          "text": "[Leave]",
+          "end": true
+        }
+      ]
+    },
+    "notice": {
+      "speaker": "notice",
+      "text": "TENANT NOTICE — Ryzen-5 sols run thirty hours; quiet hours from 25:00. Courtyard shed S-4 is reserved for 'building maintenance drills'. Do not loiter near the yard gate.",
+      "options": [
+        {
+          "text": "[Close]",
+          "end": true
+        }
+      ]
+    },
+    "mailbox": {
+      "speaker": "notice",
+      "text": "MAILBOX 2B — ASHE. Stuffed with three sols of uncollected post. Whatever happened to Corin, he wasn't planning a trip.",
+      "options": [
+        {
+          "text": "[Close]",
+          "end": true
+        }
+      ]
+    }
+  },
+  "pivots": [
+    {
+      "id": "T01",
+      "title": "The Quiet Tenant",
+      "mirrors": "PIVOT_02",
+      "location": "Ground floor — lobby & apartments",
+      "choices": [
+        {
+          "key": "A",
+          "description": "Mrs. Tamsin: trust-gated testimony and door-cam."
+        },
+        {
+          "key": "B",
+          "description": "Pim Hollis (leaves 17:00): seeded 50/50 — statement or Corin's note."
+        },
+        {
+          "key": "C",
+          "description": "Suggestion at the security desk: lobby footage."
+        },
+        {
+          "key": "D",
+          "description": "Combine both videos: only together do they link the visitors to the abduction."
+        }
+      ],
+      "mandatory_rule": "Area mandatory, individual witnesses optional."
+    },
+    {
+      "id": "T02",
+      "title": "Apartment 2B",
+      "mirrors": "PIVOT_03",
+      "location": "Floor 2 — Apt 2B",
+      "choices": [
+        {
+          "key": "A",
+          "description": "Hack the terminal: success = hourly tracker pings; failure locks it and halves the sweep clock."
+        },
+        {
+          "key": "B",
+          "description": "Deep search: three forensic clues + pistol; each search costs sweep-clock time."
+        },
+        {
+          "key": "C",
+          "description": "Leave before the crew arrives — permanently closes sweep impersonation."
+        },
+        {
+          "key": "D",
+          "description": "Hide and ambush the returning crew."
+        },
+        {
+          "key": "E",
+          "description": "Open firefight — no Mimic identity possible."
+        }
+      ],
+      "mandatory_rule": "Starting the 5:00 sweep clock is mandatory once you enter 2B."
+    },
+    {
+      "id": "T03",
+      "title": "Sweep Drill (Event)",
+      "mirrors": "PIVOT_04",
+      "location": "Floor 2",
+      "choices": [
+        {
+          "key": "A",
+          "description": "Capture alive (stealth takedown) — Mimic identity permitted."
+        },
+        {
+          "key": "B",
+          "description": "Silent scalpel kill — Mimic identity permitted."
+        },
+        {
+          "key": "C",
+          "description": "Two correct dialogue answers → window escape."
+        },
+        {
+          "key": "D",
+          "description": "Open combat — dodge QTE, checkpoint reload on failure."
+        }
+      ],
+      "mandatory_rule": "Only if you are on Floor 2 when the sweep clock runs out."
+    },
+    {
+      "id": "T04",
+      "title": "The Yard",
+      "mirrors": "PIVOT_05/06 convergence",
+      "location": "Courtyard — shed yard",
+      "choices": [
+        {
+          "key": "A",
+          "description": "Mimic disguise + crew code: walk in with the warden's blessing."
+        },
+        {
+          "key": "B",
+          "description": "Stealth: crouch through the fence gap, avoid the vision cone."
+        },
+        {
+          "key": "C",
+          "description": "Suggestion on the warden."
+        },
+        {
+          "key": "D",
+          "description": "Force it: fight the warden / break the shed lock."
+        }
+      ],
+      "mandatory_rule": "Every route converges on the same shed (mandatory convergence)."
+    },
+    {
+      "id": "T05",
+      "title": "The Runner (2.5D)",
+      "mirrors": "PIVOT_12 QTE / chase",
+      "location": "Rear alley — side view",
+      "choices": [
+        {
+          "key": "A",
+          "description": "Catch Dax Morrow — full ledger."
+        },
+        {
+          "key": "B",
+          "description": "He escapes — only a torn ledger scrap survives."
+        }
+      ],
+      "mandatory_rule": "Mandatory once the shed is opened."
+    },
+    {
+      "id": "T06",
+      "title": "Case Report",
+      "mirrors": "Ending gating (evidence-based)",
+      "location": "HoloBand",
+      "choices": [
+        {
+          "key": "A",
+          "description": "Submit deduction backed by evidence."
+        }
+      ],
+      "mandatory_rule": "Grade depends on correct answers AND admissible supporting evidence."
+    }
+  ],
+  "deduction": [
+    {
+      "id": "q_where",
+      "question": "Where was Corin Ashe taken?",
+      "answers": [
+        "An off-world transit hub",
+        "The courtyard utility shed (S-4)",
+        "The locked storage unit, Apt 2C"
+      ],
+      "correct": 1,
+      "support": [
+        "ev_tracker_pings",
+        "ev_pim_statement",
+        "ev_corin_letter",
+        "ev_keycard",
+        "ev_grit_match",
+        "ev_corin_testimony",
+        "ev_runner_ledger",
+        "ev_ledger_scrap"
+      ]
+    },
+    {
+      "id": "q_who",
+      "question": "Who took him?",
+      "answers": [
+        "Desk Officer Brun",
+        "The S-4 sweep drill crew",
+        "Pim Hollis"
+      ],
+      "correct": 1,
+      "support": [
+        "ev_glove",
+        "ev_doorcam",
+        "ev_footage_link",
+        "ev_corin_testimony",
+        "ev_runner_ledger",
+        "ev_tamsin_testimony"
+      ]
+    },
+    {
+      "id": "q_alive",
+      "question": "Was he alive when he left the building?",
+      "answers": [
+        "Yes — walked out under escort",
+        "No — carried out dead"
+      ],
+      "correct": 0,
+      "support": [
+        "ev_lobbycam",
+        "ev_footage_link",
+        "ev_corin_testimony"
+      ]
+    }
+  ],
+  "directives": [
+    {
+      "id": "move",
+      "label": "Move (WASD / Left Stick)"
+    },
+    {
+      "id": "interact",
+      "label": "Interact (E / A)"
+    },
+    {
+      "id": "talk",
+      "label": "Question a witness"
+    },
+    {
+      "id": "trust",
+      "label": "Earn a trust-gated answer"
+    },
+    {
+      "id": "timed",
+      "label": "Reach the timed witness before 17:00"
+    },
+    {
+      "id": "art",
+      "label": "Use a Quantum Art (Suggestion)"
+    },
+    {
+      "id": "holoband",
+      "label": "Open the HoloBand (Tab / View)"
+    },
+    {
+      "id": "map",
+      "label": "Check the map scales"
+    },
+    {
+      "id": "scan",
+      "label": "HoloBand scan view (Q / Y)"
+    },
+    {
+      "id": "inspect",
+      "label": "Find a hidden detail in the evidence inspector"
+    },
+    {
+      "id": "hack",
+      "label": "Attempt the terminal intrusion (first-person)"
+    },
+    {
+      "id": "search",
+      "label": "Deep-search Apartment 2B"
+    },
+    {
+      "id": "stealth",
+      "label": "Sneak (C / LB) — stay out of vision cones"
+    },
+    {
+      "id": "takedown",
+      "label": "Stealth takedown from behind"
+    },
+    {
+      "id": "mimic",
+      "label": "Copy an identity with the Mimic Device"
+    },
+    {
+      "id": "combat",
+      "label": "Fight (scalpel F/X, pistol R/RT, dodge Space/B)"
+    },
+    {
+      "id": "qte",
+      "label": "Survive the dodge prompt"
+    },
+    {
+      "id": "chase",
+      "label": "2.5D side-view chase"
+    },
+    {
+      "id": "lock",
+      "label": "Trigger a permanent lockout"
+    },
+    {
+      "id": "skill",
+      "label": "Spend GP on a skill"
+    },
+    {
+      "id": "save",
+      "label": "Quick save / load (F5 / F9)"
+    },
+    {
+      "id": "report",
+      "label": "Submit the Case Report"
+    }
+  ]
+}

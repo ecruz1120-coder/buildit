@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detective Nowhere — Opening Build Tutorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div id="hud" class="hidden">
+      <div id="topbar"><div id="loc"></div><div id="clock"></div><div id="sweep" class="hidden"></div></div>
+      <div id="directives"></div>
+      <div id="status"></div>
+      <div id="prompt"></div>
+      <div id="hints"></div>
+      <div id="toasts"></div>
+      <div id="labels"></div>
+      <div id="progressbar" class="hidden"><div class="fill"></div><span></span></div>
+      <div id="scanframe" class="hidden"><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i><div class="scantag">SCANNING LOCAL AREA<br/><small>NO IDENTITY INFERENCE</small></div></div>
+    </div>
+    <div id="dialogue" class="panel hidden"></div>
+    <div id="holoband" class="hidden"></div>
+    <div id="inspector" class="hidden"></div>
+    <div id="terminal" class="hidden"></div>
+    <div id="qte" class="hidden"></div>
+    <div id="chasehud" class="hidden"></div>
+    <div id="overlay" class="hidden"></div>
+    <div id="fade"></div>
+  </div>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
