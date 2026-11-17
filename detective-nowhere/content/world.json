@@ -85,8 +85,8 @@
    "notes": "Peacekeep office (Sgt. Alaric Dane); gambling side missions. The \"2\" closest to Zixel (atlas glyph is garbled) — per user, Nov 2026."
   },
   {
-   "id": "soledad",
-   "name": "Soledad",
+   "id": "solidad",
+   "name": "Solidad",
    "kind": "city",
    "px": [
     470,
@@ -535,8 +535,8 @@
    ]
   },
   {
-   "id": "soledad_docks",
-   "name": "Soledad Docks",
+   "id": "solidad_docks",
+   "name": "Solidad Docks",
    "kind": "port",
    "px": [
     468,
@@ -589,9 +589,9 @@
    ]
   },
   {
-   "id": "port_veyra__soledad",
+   "id": "port_veyra__solidad",
    "a": "port_veyra",
-   "b": "soledad",
+   "b": "solidad",
    "mode": "road",
    "confidence": "traced",
    "px": [
@@ -743,9 +743,9 @@
    ]
   },
   {
-   "id": "j_meridian_sw__soledad",
+   "id": "j_meridian_sw__solidad",
    "a": "j_meridian_sw",
-   "b": "soledad",
+   "b": "solidad",
    "mode": "road",
    "confidence": "inferred",
    "px": [
@@ -1351,9 +1351,9 @@
    ]
   },
   {
-   "id": "soledad__soledad_docks",
-   "a": "soledad",
-   "b": "soledad_docks",
+   "id": "solidad__solidad_docks",
+   "a": "solidad",
+   "b": "solidad_docks",
    "mode": "road",
    "confidence": "inferred",
    "px": [
@@ -1402,9 +1402,9 @@
    ]
   },
   {
-   "id": "sea:port_veyra_docks__soledad_docks",
+   "id": "sea:port_veyra_docks__solidad_docks",
    "a": "port_veyra_docks",
-   "b": "soledad_docks",
+   "b": "solidad_docks",
    "mode": "sea",
    "confidence": "proposed",
    "px": [
@@ -1431,8 +1431,8 @@
    ]
   },
   {
-   "id": "sea:soledad_docks__ardent_docks",
-   "a": "soledad_docks",
+   "id": "sea:solidad_docks__ardent_docks",
+   "a": "solidad_docks",
    "b": "ardent_docks",
    "mode": "sea",
    "confidence": "proposed",
@@ -1556,9 +1556,9 @@
    "px": []
   },
   {
-   "id": "air:zixel__soledad",
+   "id": "air:zixel__solidad",
    "a": "zixel",
-   "b": "soledad",
+   "b": "solidad",
    "mode": "air",
    "confidence": "proposed",
    "px": []
@@ -1635,7 +1635,7 @@
    "status": "derived from atlas roads",
    "path": [
     "port_veyra",
-    "soledad",
+    "solidad",
     "j_meridian_sw",
     "zixel",
     "dunefall",
@@ -1728,7 +1728,7 @@
    "status": "proposed",
    "path": [
     "port_veyra_docks",
-    "soledad_docks",
+    "solidad_docks",
     "ardent_docks",
     "wayfarers_landing"
    ],
@@ -1919,9 +1919,9 @@
   }
  ],
  "open_questions": [
-  "RESOLVED (user): Kitsah is the garbled \"2\" north of Zixel; the \"2\" on the south-west coast is city 9, Soledad (pop 350,000, 38 km²).",
+  "RESOLVED (user): Kitsah is the garbled \"2\" north of Zixel; the \"2\" on the south-west coast is city 9, Solidad (pop 350,000, 38 km²).",
   "PROVISIONAL: duplicate outpost markers renumbered — Red Mesa Post (1) = printed \"12\" W of Titanspine; Scorpion Watch (2) = printed \"3\" on the Ashen Reach; Coyote Crossing (8) = printed \"9\" on Southreach; Southreach east \"3\" = new Outpost 16 (needs a name). Blackrock Station stays on the western Ashen Reach \"3\".",
-  "Soledad (city 9) needs a city type (coastal? port?) — set to \"City\" for now.",
+  "Solidad (city 9) needs a city type (coastal? port?) — set to \"City\" for now.",
   "A stray \"7\" label is printed beside Kessar Bay with no outpost triangle.",
   "Kessar Bay is listed as a coastal city but drawn ~120 km inland on the River Kessar.",
   "Atlas land covers ~30% of the sphere (~40% of the mapped 270 deg), but the stated surface water is 38% (62% land).",

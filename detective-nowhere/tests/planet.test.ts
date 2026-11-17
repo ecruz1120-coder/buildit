@@ -46,12 +46,12 @@ describe('route network', () => {
 });
 
 describe('atlas corrections (user, Nov 2026)', () => {
-  it('Kitsah is the "2" closest to Zixel; Soledad is city 9', () => {
+  it('Kitsah is the "2" closest to Zixel; Solidad is city 9', () => {
     const z = NODE.get('zixel')!.px;
-    expect(greatCircleKm(z, NODE.get('kitsah')!.px)).toBeLessThan(greatCircleKm(z, NODE.get('soledad')!.px));
-    expect(NODE.get('soledad')!.map_no).toBe(9);
-    expect(NODE.get('soledad')!.pop).toBe(350000);
-    expect(NODE.get('soledad')!.area_km2).toBe(38);
+    expect(greatCircleKm(z, NODE.get('kitsah')!.px)).toBeLessThan(greatCircleKm(z, NODE.get('solidad')!.px));
+    expect(NODE.get('solidad')!.map_no).toBe(9);
+    expect(NODE.get('solidad')!.pop).toBe(350000);
+    expect(NODE.get('solidad')!.area_km2).toBe(38);
   });
   it('no duplicate numbers among cities or among outposts', () => {
     for (const kind of ['city', 'outpost']) {

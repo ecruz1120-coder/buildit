@@ -16,7 +16,7 @@ node('zixel', 'Zixel', 'city', 717, 470, map_no=1, type='Megacity (Capital)', po
      gameplay=CONFIRMED, roles=['capital', 'airship_hub', 'road_hub'], notes='Acts I–II. Veyra district, Kaelis Row.')
 node('kitsah', 'Kitsah', 'city', 787, 358, map_no=2, type='Transit Hub', pop=17_000, area_km2=6,
      gameplay=CONFIRMED, roles=['transit_hub', 'airship_hub', 'road_hub'], notes='Peacekeep office (Sgt. Alaric Dane); gambling side missions. The "2" closest to Zixel (atlas glyph is garbled) — per user, Nov 2026.')
-node('soledad', 'Soledad', 'city', 470, 620, map_no=9, type='City', pop=350_000, area_km2=38,
+node('solidad', 'Solidad', 'city', 470, 620, map_no=9, type='City', pop=350_000, area_km2=38,
      gameplay=AVAILABLE, roles=['port'], notes='City 9 — not in the atlas panel; the atlas mislabels it "2". Per user, Nov 2026.')
 node('port_veyra', 'Port Veyra', 'city', 338, 521, map_no=3, type='Major Coastal City', pop=1_900_000, area_km2=540,
      gameplay=CANDIDATE, roles=['port', 'airship_dock'], notes='Side mission S3-01 (shipping auditor). Only major western city on the atlas — candidate for the Act V western facility city (NOT confirmed).')
@@ -77,7 +77,7 @@ node('ironwood_landing', 'Ironwood East Landing', 'port', 1090, 630, notes='Road
 node('kessar_mouth', 'Kessar River Mouth (Kessar Bay harbour)', 'port', 1112, 540)
 node('ember_landing', 'Ember Ridge Landing', 'port', 687, 787)
 node('wayfarers_landing', "Wayfarer's North Landing", 'port', 968, 768)
-node('soledad_docks', 'Soledad Docks', 'port', 468, 645)
+node('solidad_docks', 'Solidad Docks', 'port', 468, 645)
 node('port_veyra_docks', 'Port Veyra Docks', 'port', 322, 530)
 node('ardent_docks', 'Ardent Harbor Docks', 'port', 834, 712)
 
@@ -86,13 +86,13 @@ R = []
 def road(a, b, pts, conf='traced'):
     R.append(dict(id=f'{a}__{b}', a=a, b=b, mode='road', confidence=conf, px=pts))
 road('port_veyra', 'razorback_station', [(338,521),(385,500),(430,455),(482,414)])
-road('port_veyra', 'soledad', [(338,521),(400,540),(425,580),(470,620)])
+road('port_veyra', 'solidad', [(338,521),(400,540),(425,580),(470,620)])
 road('horizon_point', 'sandglass_camp', [(400,318),(440,345),(470,352),(520,375),(580,390),(590,403)], 'inferred')
 road('sandglass_camp', 'dry_river_post', [(590,403),(635,423),(660,440),(667,457)])
 road('dry_river_post', 'zixel', [(667,457),(695,465),(717,470)])
 road('zixel', 'j_meridian_sw', [(717,470),(680,505),(640,507),(590,512)])
 road('j_meridian_sw', 'stonewell', [(590,512),(575,545),(560,572),(546,592)])
-road('j_meridian_sw', 'soledad', [(590,512),(600,540),(590,590),(575,640),(520,643),(470,620)], 'inferred')
+road('j_meridian_sw', 'solidad', [(590,512),(600,540),(590,590),(575,640),(520,643),(470,620)], 'inferred')
 road('zixel', 'longtrail_outpost', [(717,470),(723,527),(723,607),(707,653),(691,673)])
 road('zixel', 'dunefall', [(717,470),(755,505),(800,505),(850,495),(885,466)])
 road('zixel', 'kitsah', [(717,470),(745,470),(775,455),(780,402),(787,358)])
@@ -116,27 +116,27 @@ road('hive_beta', 'scorpion_watch', [(707,92),(712,140),(734,172)])
 road('wayfarers_rest', 'iron_junction', [(973,820),(985,850),(1000,880),(980,912)])
 road('wayfarers_rest', 'wayfarers_landing', [(973,820),(968,768)], 'inferred')
 road('ember_ridge', 'ember_landing', [(705,805),(687,787)])
-road('soledad', 'soledad_docks', [(470,620),(468,645)], 'inferred')
+road('solidad', 'solidad_docks', [(470,620),(468,645)], 'inferred')
 road('port_veyra', 'port_veyra_docks', [(338,521),(322,530)], 'inferred')
 road('ardent_harbor', 'ardent_docks', [(834,692),(834,712)], 'inferred')
 
 # ── Proposed sea lanes & airship routes (NOT drawn on the atlas) ───────────
 def lane(a, b, mode, pts=None):
     R.append(dict(id=f'{mode}:{a}__{b}', a=a, b=b, mode=mode, confidence='proposed', px=pts or []))
-lane('port_veyra_docks', 'soledad_docks', 'sea', [(322,530),(300,600),(350,690),(430,690),(468,660)])
-lane('soledad_docks', 'ardent_docks', 'sea', [(468,660),(560,720),(700,735),(800,725),(834,712)])
+lane('port_veyra_docks', 'solidad_docks', 'sea', [(322,530),(300,600),(350,690),(430,690),(468,660)])
+lane('solidad_docks', 'ardent_docks', 'sea', [(468,660),(560,720),(700,735),(800,725),(834,712)])
 lane('ardent_docks', 'ember_landing', 'sea', [(834,712),(760,745),(687,787)])
 lane('ardent_docks', 'wayfarers_landing', 'sea', [(834,712),(900,740),(968,768)])
 lane('kessar_mouth', 'ironwood_landing', 'sea', [(1112,540),(1135,580),(1090,630)])
 lane('ironwood_landing', 'wayfarers_landing', 'sea', [(1090,630),(1130,700),(1060,745),(968,768)])
-for a, b in [('zixel','kitsah'),('zixel','soledad'),('zixel','port_veyra'),('zixel','dunefall'),('zixel','kessar_bay'),('zixel','wayfarers_rest'),
+for a, b in [('zixel','kitsah'),('zixel','solidad'),('zixel','port_veyra'),('zixel','dunefall'),('zixel','kessar_bay'),('zixel','wayfarers_rest'),
              ('zixel','titan_watch'),('kitsah','wayfarers_rest'),('kitsah','titan_watch'),('kessar_bay','wayfarers_rest')]:
     lane(a, b, 'air')
 
 # ── Trade corridors (groupings of the routes above; goods are suggestions) ──
 trade = [
  dict(id='meridian_trunk', name='Meridian Trunk', status='derived from atlas roads',
-      path=['port_veyra','soledad','j_meridian_sw','zixel','dunefall','kessar_bay'], suggested_goods=['shipping freight', 'manufactured goods', 'passengers'],
+      path=['port_veyra','solidad','j_meridian_sw','zixel','dunefall','kessar_bay'], suggested_goods=['shipping freight', 'manufactured goods', 'passengers'],
       note='Coast-to-coast spine across the Meridian Expanse.'),
  dict(id='highland_road', name='Highland Road', status='derived from atlas roads',
       path=['titan_watch','j_titan_south','lake_zenith_shore','j_dustwall_east','kessar_bay'], suggested_goods=['frontier permits', 'lake fish', 'fresh water'],
@@ -150,7 +150,7 @@ trade = [
  dict(id='southern_road', name='Ardent Road', status='derived from atlas roads',
       path=['zixel','dunefall','ardent_harbor'], suggested_goods=['desert minerals', 'sea freight']),
  dict(id='equatorial_lane', name='Equatorial Sea Lane', status='proposed',
-      path=['port_veyra_docks','soledad_docks','ardent_docks','wayfarers_landing'], suggested_goods=['bulk freight', 'passengers'],
+      path=['port_veyra_docks','solidad_docks','ardent_docks','wayfarers_landing'], suggested_goods=['bulk freight', 'passengers'],
       note='Links the main continent to Southreach. Not drawn on the atlas.'),
  dict(id='transit_air', name='Transit Airship Network', status='proposed',
       path=['zixel','kitsah','wayfarers_rest'], suggested_goods=['passengers', 'mail', 'priority cargo'],
@@ -189,9 +189,9 @@ world = dict(
   },
   nodes=nodes, routes=R, trade_corridors=trade, regions=regions, waters=waters,
   open_questions=[
-    'RESOLVED (user): Kitsah is the garbled "2" north of Zixel; the "2" on the south-west coast is city 9, Soledad (pop 350,000, 38 km²).',
+    'RESOLVED (user): Kitsah is the garbled "2" north of Zixel; the "2" on the south-west coast is city 9, Solidad (pop 350,000, 38 km²).',
     'PROVISIONAL: duplicate outpost markers renumbered — Red Mesa Post (1) = printed "12" W of Titanspine; Scorpion Watch (2) = printed "3" on the Ashen Reach; Coyote Crossing (8) = printed "9" on Southreach; Southreach east "3" = new Outpost 16 (needs a name). Blackrock Station stays on the western Ashen Reach "3".',
-    'Soledad (city 9) needs a city type (coastal? port?) — set to "City" for now.',
+    'Solidad (city 9) needs a city type (coastal? port?) — set to "City" for now.',
     'A stray "7" label is printed beside Kessar Bay with no outpost triangle.',
     'Kessar Bay is listed as a coastal city but drawn ~120 km inland on the River Kessar.',
     'Atlas land covers ~30% of the sphere (~40% of the mapped 270 deg), but the stated surface water is 38% (62% land).',

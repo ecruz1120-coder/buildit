@@ -27,7 +27,7 @@ So the atlas is an equirectangular world projection. Distances are great-circle 
 ## Atlas corrections
 The atlas was AI-generated and has numbering errors:
 - **Kitsah (city 2)** is the marker closest to Zixel, north of it (the atlas digit is garbled). Per user, Nov 2026.
-- **Soledad (city 9)**: pop 350,000, 38 km². It's on the south-west coast, where the atlas prints a second "2". Per user, Nov 2026.
+- **Solidad (city 9)**: pop 350,000, 38 km². It's on the south-west coast, where the atlas prints a second "2". Per user, Nov 2026.
 - **Duplicate outpost numbers (3, 9 and 12) — PROVISIONAL, please confirm:**
   - Red Mesa Post (1) = the printed "12" west of the Titanspine.
   - Scorpion Watch (2) = the printed "3" below Hive Beta on the Ashen Reach.
@@ -43,35 +43,35 @@ The atlas was AI-generated and has numbering errors:
 | Zixel → Kessar Bay | 2103 km | 2544 km · 1 sol 16.3 h | 2544 km · 1 sol 16.3 h | 16.5 h (air) |
 | Zixel → Wayfarer's Rest | 2463 km | — | 3678 km · 2 sol 16.1 h | 19.1 h (air) |
 | Zixel → Port Veyra | 2289 km | 3285 km · 1 sol 29.7 h | 3285 km · 1 sol 29.7 h | 17.9 h (air) |
-| Zixel → Soledad | 1716 km | 2260 km · 1 sol 11.1 h | 2260 km · 1 sol 11.1 h | 13.8 h (air) |
+| Zixel → Solidad | 1716 km | 2260 km · 1 sol 11.1 h | 2260 km · 1 sol 11.1 h | 13.8 h (air) |
 | Zixel → Titan Watch | 2133 km | 2429 km · 1 sol 14.2 h | 2429 km · 1 sol 14.2 h | 16.7 h (air) |
 | Zixel → Lake Zenith South Shore | 1804 km | 2487 km · 1 sol 15.2 h | 2487 km · 1 sol 15.2 h | 1 sol 1.7 h (air+road) |
 | Kitsah → Kessar Bay | 1576 km | 2020 km · 1 sol 6.7 h | 2020 km · 1 sol 6.7 h | 23.6 h (air) |
 | Kitsah → Wayfarer's Rest | 2935 km | — | 3411 km · 2 sol 11.3 h | 22.5 h (air) |
 | Kitsah → Port Veyra | 2761 km | 4237 km · 2 sol 17.0 h | 4237 km · 2 sol 17.0 h | 24.9 h (air) |
-| Kitsah → Soledad | 2423 km | 3212 km · 1 sol 28.4 h | 3212 km · 1 sol 28.4 h | 20.8 h (air) |
+| Kitsah → Solidad | 2423 km | 3212 km · 1 sol 28.4 h | 3212 km · 1 sol 28.4 h | 20.8 h (air) |
 | Kitsah → Titan Watch | 1368 km | 1477 km · 26.9 h | 1477 km · 26.9 h | 11.3 h (air) |
 | Kitsah → Lake Zenith South Shore | 1083 km | 1535 km · 27.9 h | 1535 km · 27.9 h | 27.9 h (road) |
 | Kessar Bay → Wayfarer's Rest | 2583 km | — | 3908 km · 2 sol 20.3 h | 20.0 h (air) |
 | Kessar Bay → Port Veyra | 4333 km | 5828 km · 3 sol 16.0 h | 5828 km · 3 sol 16.0 h | 1 sol 4.4 h (air) |
-| Kessar Bay → Soledad | 3780 km | 4804 km · 2 sol 27.3 h | 4804 km · 2 sol 27.3 h | 1 sol 0.3 h (air) |
+| Kessar Bay → Solidad | 3780 km | 4804 km · 2 sol 27.3 h | 4804 km · 2 sol 27.3 h | 1 sol 0.3 h (air) |
 | Kessar Bay → Titan Watch | 1566 km | 1834 km · 1 sol 3.4 h | 1834 km · 1 sol 3.4 h | 1 sol 3.3 h (air) |
 | Kessar Bay → Lake Zenith South Shore | 737 km | 833 km · 15.2 h | 833 km · 15.2 h | 15.2 h (road) |
 | Wayfarer's Rest → Port Veyra | 3453 km | — | 4102 km · 3 sol 15.7 h | 1 sol 6.9 h (air) |
-| Wayfarer's Rest → Soledad | 2520 km | — | 3077 km · 2 sol 27.1 h | 1 sol 2.8 h (air) |
+| Wayfarer's Rest → Solidad | 2520 km | — | 3077 km · 2 sol 27.1 h | 1 sol 2.8 h (air) |
 | Wayfarer's Rest → Titan Watch | 4006 km | — | 4888 km · 3 sol 8.1 h | 1 sol 3.7 h (air) |
 | Wayfarer's Rest → Lake Zenith South Shore | 3134 km | — | 4741 km · 3 sol 5.5 h | 1 sol 5.1 h (air+road) |
-| Port Veyra → Soledad | 977 km | 1025 km · 18.6 h | 1025 km · 18.6 h | 18.6 h (road) |
+| Port Veyra → Solidad | 977 km | 1025 km · 18.6 h | 1025 km · 18.6 h | 18.6 h (road) |
 | Port Veyra → Titan Watch | 3363 km | 5714 km · 3 sol 13.9 h | 5714 km · 3 sol 13.9 h | 1 sol 4.6 h (air) |
 | Port Veyra → Lake Zenith South Shore | 3765 km | 5771 km · 3 sol 14.9 h | 5771 km · 3 sol 14.9 h | 1 sol 19.5 h (air+road) |
-| Soledad → Titan Watch | 3537 km | 4689 km · 2 sol 25.3 h | 4689 km · 2 sol 25.3 h | 1 sol 0.5 h (air) |
-| Soledad → Lake Zenith South Shore | 3500 km | 4747 km · 2 sol 26.3 h | 4747 km · 2 sol 26.3 h | 1 sol 15.4 h (air+road) |
+| Solidad → Titan Watch | 3537 km | 4689 km · 2 sol 25.3 h | 4689 km · 2 sol 25.3 h | 1 sol 0.5 h (air) |
+| Solidad → Lake Zenith South Shore | 3500 km | 4747 km · 2 sol 26.3 h | 4747 km · 2 sol 26.3 h | 1 sol 15.4 h (air+road) |
 | Titan Watch → Lake Zenith South Shore | 889 km | 1001 km · 18.2 h | 1001 km · 18.2 h | 18.2 h (road) |
 
 ## Open questions
-- RESOLVED (user): Kitsah is the garbled "2" north of Zixel; the "2" on the south-west coast is city 9, Soledad (pop 350,000, 38 km²).
+- RESOLVED (user): Kitsah is the garbled "2" north of Zixel; the "2" on the south-west coast is city 9, Solidad (pop 350,000, 38 km²).
 - PROVISIONAL: duplicate outpost markers renumbered — Red Mesa Post (1) = printed "12" W of Titanspine; Scorpion Watch (2) = printed "3" on the Ashen Reach; Coyote Crossing (8) = printed "9" on Southreach; Southreach east "3" = new Outpost 16 (needs a name). Blackrock Station stays on the western Ashen Reach "3".
-- Soledad (city 9) needs a city type (coastal? port?) — set to "City" for now.
+- Solidad (city 9) needs a city type (coastal? port?) — set to "City" for now.
 - A stray "7" label is printed beside Kessar Bay with no outpost triangle.
 - Kessar Bay is listed as a coastal city but drawn ~120 km inland on the River Kessar.
 - Atlas land covers ~30% of the sphere (~40% of the mapped 270 deg), but the stated surface water is 38% (62% land).
