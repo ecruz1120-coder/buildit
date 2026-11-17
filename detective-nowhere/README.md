@@ -46,7 +46,10 @@ Isometric movement · interaction · dialogue with gated options · trust · tim
 ## Layout
 `content/tutorial.json` holds NPCs, dialogue, evidence, pivots, deduction questions and directives, using the Phase 3 schema style. `src/core` holds the clock, RNG and save state; `src/player` holds progression; `src/world` holds maps, level, actors and AI; `src/render` holds the pixel pipeline and props; `src/ui` holds the HUD, dialogue, HoloBand, inspector, terminal and QTE; `src/modes/chase.ts` is the side-view chase; `src/game.ts` is the orchestrator.
 
+## Planet: Ryzen-5
+HoloBand → MAP → **PLANET** shows the whole planet to scale: coastlines from your atlas, traced roads, proposed sea and airship lanes, trade corridors, connection points, a route planner with travel times, and a 3D globe. Details, method and open questions are in [`docs/RYZEN5_WORLD.md`](docs/RYZEN5_WORLD.md).
+
 ## Placeholders / open items
 - Node thresholds, rank curve, skill costs, CST values and damage numbers are **tuning placeholders** until the handbook numbers are applied (bible §15 OPEN).
-- The 1 km, City and Planet map scales are intentionally knowledge-gated with no data in this sim.
+- The 1 km and City map scales are intentionally knowledge-gated with no data in this sim.
 - NPCs are low-poly stand-ins. Only Cedric uses production art.

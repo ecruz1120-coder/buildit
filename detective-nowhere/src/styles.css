@@ -153,3 +153,11 @@ canvas.map { background: #07131c; border: 1px solid var(--cyan2); image-renderin
 .screen td { border-bottom: 1px solid #1f3040; padding: 4px 6px; vertical-align: top; }
 .screen .grade { font-family: var(--head); font-size: 64px; color: var(--cyan); }
 .loadbar { height: 4px; background: #1e2a3c; margin-top: 12px; } .loadbar i { display: block; height: 100%; background: var(--cyan); width: 0; transition: width 200ms; }
+
+/* Planet map (HoloBand MAP → PLANET) */
+.planet { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 14px; }
+.planet .pm-view canvas.pmap { width: 100%; display: block; border: 1px solid var(--cyan2); background: #07131c; cursor: crosshair; }
+.planet .pm-view canvas { width: 100%; display: block; }
+.planet .scales .nav { font-size: 11px; padding: 4px 8px; }
+.planet .pm-side .list .nav { font-size: 12px; }
+@media (max-width: 760px) { .planet { grid-template-columns: 1fr; } }

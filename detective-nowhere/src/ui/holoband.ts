@@ -2,6 +2,7 @@ import { CONTENT } from '../content';
 import { NODES, NODE_THRESHOLDS, SKILLS, canBuy, gpAvailable, gpEarned, nodeLevel, rank } from '../player/progression';
 import { AREAS, FLOORS, W, H } from '../world/maps';
 import { Nav, esc } from './nav';
+import { PlanetMap } from './planetmap';
 import type { Game } from '../game';
 
 const root = () => document.getElementById('holoband')!;
@@ -19,7 +20,8 @@ export class HoloBand {
   private answers: Record<string, { a: number; e: string }> = {};
   private lastTab = '';
 
-  constructor(private g: Game) {}
+  readonly planet: PlanetMap;
+  constructor(private g: Game) { this.planet = new PlanetMap(g); }
 
   show(tab?: Tab) {
     this.open = true;
@@ -28,7 +30,7 @@ export class HoloBand {
     this.g.markDirective('holoband');
     this.render();
   }
-  close() { this.open = false; this.lastTab = ''; root().classList.add('hidden'); root().innerHTML = ''; }
+  close() { this.open = false; this.lastTab = ''; this.planet.unmount(); root().classList.add('hidden'); root().innerHTML = ''; }
 
   private setTab(t: Tab) { this.tab = t; if (t === 'MAP') this.g.markDirective('map'); this.render(); }
 
@@ -80,8 +82,8 @@ export class HoloBand {
       }
       case 'MAP': {
         return `<h3>MAP</h3><div class="scales">${SCALES.map((n, i) => `<button class="nav ${i === this.scale ? 'on' : ''}" data-scale="${i}">${n}</button>`).join('')}</div>
-          <div id="mapwrap">${this.scale <= 1 ? '<canvas class="map" width="560" height="440"></canvas>' : `<div class="card" style="max-width:560px"><div class="kind">KNOWLEDGE GATED</div><p>No survey data for the ${SCALES[this.scale]} scale in this simulation.</p><p class="muted">In the full game, scales unlock by learning the city: terminals, transit maps, conversations (P001-B). The map never shows what Cedric hasn't learned.</p></div>`}</div>
-          <p class="muted" style="font-size:12px">Rooms appear once visited or described to you. ◆ marks locations you have a lead on.</p>`;
+          ${this.scale === 4 ? this.planet.html() : `<div id="mapwrap">${this.scale <= 1 ? '<canvas class="map" width="560" height="440"></canvas>' : `<div class="card" style="max-width:560px"><div class="kind">KNOWLEDGE GATED</div><p>No survey data for the ${SCALES[this.scale]} scale in this simulation.</p><p class="muted">In the full game, scales unlock by learning the city: terminals, transit maps, conversations (P001-B). The map never shows what Cedric hasn't learned.</p></div>`}</div>
+          <p class="muted" style="font-size:12px">Rooms appear once visited or described to you. ◆ marks locations you have a lead on.</p>`}`;
       }
       case 'ITEMS':
         return `<h3>INVENTORY</h3><div class="list">${s.inventory.map((i) => `<div class="card"><b>${esc(CONTENT.items[i]?.name ?? i)}</b>${i === 'pistol' ? ` <span class="muted">· ${s.player.ammo} rounds</span>` : ''}<br/><span class="muted">${esc(CONTENT.items[i]?.desc ?? '')}</span></div>`).join('')}</div>
@@ -140,6 +142,8 @@ export class HoloBand {
     body.querySelector<HTMLElement>('[data-submit]')?.addEventListener('click', () => this.g.submitReport(this.answers));
     body.querySelector<HTMLElement>('[data-results]')?.addEventListener('click', () => this.g.showResults());
     body.querySelectorAll<HTMLElement>('[data-sys]').forEach((b) => b.addEventListener('click', () => this.g.system(b.dataset.sys!)));
+    this.planet.unmount();
+    if (this.tab === 'MAP' && this.scale === 4) this.planet.mount(body);
     const c = body.querySelector('canvas.map') as HTMLCanvasElement | null;
     if (c) this.drawMap(c);
   }
@@ -186,7 +190,8 @@ export class HoloBand {
     x.fillText(this.scale === 0 ? `INTERIOR · ${floor === 0 ? 'GROUND' : 'FLOOR 2'}` : '300 M · KAELIS ROW SIM BLOCK', 10, c.height - 10);
   }
 
-  update() {
+  update(dt = 0) {
+    if (this.tab === 'MAP' && this.scale === 4) this.planet.update(dt);
     if (!this.open) return;
     const inp = this.g.input;
     if (inp.pressed('tabPrev') || inp.pressed('tabNext')) {

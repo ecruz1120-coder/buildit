@@ -1,0 +1,1904 @@
+{
+ "schema_version": "1.0.0",
+ "planet": {
+  "name": "Ryzen-5",
+  "region": "Northern Frontier Region",
+  "politics": "Anarchist Territories",
+  "system": "Tripaternal Star System",
+  "sector": "Crusted Nebula — Midrim Sector",
+  "circumference_km": 12289,
+  "diameter_km": 3912,
+  "gravity_g": 0.41,
+  "surface_water_pct_stated": 38,
+  "population": 12000000,
+  "farthest_points_km": 6145,
+  "hours_per_sol": 30
+ },
+ "projection": {
+  "type": "equirectangular",
+  "atlas_px": [
+   1536,
+   1024
+  ],
+  "lon_span_deg": 270,
+  "lat_span_deg": 180,
+  "prime_meridian_px": 717,
+  "km_per_px_at_equator": 6.0005,
+  "rationale": "Atlas scale bar: 1000 km = 166 px (6.0 km/px). Atlas height 1024 px x 6.0 = 6,144 km = pole-to-pole (half the 12,289 km circumference), and width 9,216 km = 270 deg of longitude. The atlas is therefore treated as an equirectangular projection; the off-map 90 deg is assumed to be ocean. Prime meridian set through Zixel."
+ },
+ "travel_modes": {
+  "road": {
+   "name": "Road convoy / ground transit",
+   "kmh": 55,
+   "source": "proposed tuning"
+  },
+  "sea": {
+   "name": "Coastal freighter / ferry",
+   "kmh": 35,
+   "source": "proposed tuning"
+  },
+  "air": {
+   "name": "Airship",
+   "kmh": 140,
+   "source": "proposed tuning"
+  }
+ },
+ "nodes": [
+  {
+   "id": "zixel",
+   "name": "Zixel",
+   "kind": "city",
+   "px": [
+    717,
+    470
+   ],
+   "map_no": 1,
+   "type": "Megacity (Capital)",
+   "pop": 3300000,
+   "area_km2": 1300,
+   "gameplay": "confirmed",
+   "roles": [
+    "capital",
+    "airship_hub",
+    "road_hub"
+   ],
+   "notes": "Acts I–II. Veyra district, Kaelis Row."
+  },
+  {
+   "id": "kitsah",
+   "name": "Kitsah",
+   "kind": "city",
+   "px": [
+    470,
+    620
+   ],
+   "map_no": 2,
+   "type": "Transit Hub",
+   "pop": 17000,
+   "area_km2": 6,
+   "gameplay": "confirmed",
+   "roles": [
+    "transit_hub",
+    "airship_hub",
+    "port"
+   ],
+   "notes": "Peacekeep office (Sgt. Alaric Dane); gambling side missions."
+  },
+  {
+   "id": "port_veyra",
+   "name": "Port Veyra",
+   "kind": "city",
+   "px": [
+    338,
+    521
+   ],
+   "map_no": 3,
+   "type": "Major Coastal City",
+   "pop": 1900000,
+   "area_km2": 540,
+   "gameplay": "candidate",
+   "roles": [
+    "port",
+    "airship_dock"
+   ],
+   "notes": "Side mission S3-01 (shipping auditor). Only major western city on the atlas — candidate for the Act V western facility city (NOT confirmed)."
+  },
+  {
+   "id": "dunefall",
+   "name": "Dunefall",
+   "kind": "city",
+   "px": [
+    885,
+    466
+   ],
+   "map_no": 4,
+   "type": "Major Desert City",
+   "pop": 1450000,
+   "area_km2": 470,
+   "gameplay": "available",
+   "roles": [
+    "road_hub",
+    "airship_dock"
+   ]
+  },
+  {
+   "id": "kessar_bay",
+   "name": "Kessar Bay",
+   "kind": "city",
+   "px": [
+    1072,
+    398
+   ],
+   "map_no": 5,
+   "type": "Major Coastal City",
+   "pop": 1300000,
+   "area_km2": 410,
+   "gameplay": "confirmed",
+   "roles": [
+    "port",
+    "airship_dock"
+   ],
+   "notes": "Act III. Atlas places the city ~120 km inland on the River Kessar; its harbour is modelled at the river mouth."
+  },
+  {
+   "id": "ardent_harbor",
+   "name": "Ardent Harbor",
+   "kind": "city",
+   "px": [
+    834,
+    692
+   ],
+   "map_no": 6,
+   "type": "Medium Coastal City",
+   "pop": 850000,
+   "area_km2": 240,
+   "gameplay": "available",
+   "roles": [
+    "port"
+   ]
+  },
+  {
+   "id": "ironwood_crossing",
+   "name": "Ironwood Crossing",
+   "kind": "city",
+   "px": [
+    1010,
+    590
+   ],
+   "map_no": 7,
+   "type": "Medium Forest City",
+   "pop": 650000,
+   "area_km2": 180,
+   "gameplay": "available",
+   "roles": [
+    "road_hub"
+   ]
+  },
+  {
+   "id": "wayfarers_rest",
+   "name": "Wayfarer's Rest",
+   "kind": "city",
+   "px": [
+    973,
+    820
+   ],
+   "map_no": 8,
+   "type": "Small Transit Hub",
+   "pop": 15000,
+   "area_km2": 5,
+   "gameplay": "confirmed",
+   "roles": [
+    "transit_hub",
+    "airship_hub",
+    "port"
+   ],
+   "notes": "Act IV, Southreach (southern continent). Early Chimera labs."
+  },
+  {
+   "id": "unknown_city_n",
+   "name": "Unidentified city marker",
+   "kind": "city",
+   "px": [
+    787,
+    358
+   ],
+   "map_no": null,
+   "type": "Unlisted (drawn as a city, numbered \"3\")",
+   "gameplay": "available",
+   "roles": [
+    "road_hub"
+   ],
+   "unresolved": "Atlas shows a city icon labelled \"3\" north of Zixel, but city 3 (Port Veyra) is on the west coast. Needs a name."
+  },
+  {
+   "id": "blackrock_station",
+   "name": "Blackrock Station",
+   "kind": "outpost",
+   "px": [
+    472,
+    220
+   ],
+   "map_no": 3,
+   "pop": 1700,
+   "area_km2": 2,
+   "gameplay": "available",
+   "unresolved": "Three triangles are printed \"3\" (two on the Ashen Reach, one on Southreach). Name assigned provisionally to the western Ashen Reach marker."
+  },
+  {
+   "id": "dustwall_camp",
+   "name": "Dustwall Camp",
+   "kind": "outpost",
+   "px": [
+    895,
+    332
+   ],
+   "map_no": 4,
+   "pop": 600,
+   "area_km2": 1,
+   "gameplay": "available"
+  },
+  {
+   "id": "horizon_point",
+   "name": "Horizon Point",
+   "kind": "outpost",
+   "px": [
+    400,
+    318
+   ],
+   "map_no": 5,
+   "pop": 4900,
+   "area_km2": 3,
+   "gameplay": "available"
+  },
+  {
+   "id": "ember_ridge",
+   "name": "Ember Ridge",
+   "kind": "outpost",
+   "px": [
+    705,
+    805
+   ],
+   "map_no": 6,
+   "pop": 3200,
+   "area_km2": 3,
+   "gameplay": "available"
+  },
+  {
+   "id": "iron_junction",
+   "name": "Iron Junction",
+   "kind": "outpost",
+   "px": [
+    980,
+    912
+   ],
+   "map_no": 7,
+   "pop": 2100,
+   "area_km2": 2,
+   "gameplay": "available"
+  },
+  {
+   "id": "stonewell",
+   "name": "Stonewell",
+   "kind": "outpost",
+   "px": [
+    546,
+    592
+   ],
+   "map_no": 9,
+   "pop": 800,
+   "area_km2": 1,
+   "gameplay": "available",
+   "unresolved": "A second \"9\" is printed on Southreach."
+  },
+  {
+   "id": "dry_river_post",
+   "name": "Dry River Post",
+   "kind": "outpost",
+   "px": [
+    667,
+    457
+   ],
+   "map_no": 10,
+   "pop": 350,
+   "area_km2": 1,
+   "gameplay": "available"
+  },
+  {
+   "id": "frontier_gate",
+   "name": "Frontier Gate",
+   "kind": "outpost",
+   "px": [
+    1167,
+    481
+   ],
+   "map_no": 11,
+   "pop": 2900,
+   "area_km2": 2,
+   "gameplay": "available"
+  },
+  {
+   "id": "razorback_station",
+   "name": "Razorback Station",
+   "kind": "outpost",
+   "px": [
+    482,
+    414
+   ],
+   "map_no": 12,
+   "pop": 1600,
+   "area_km2": 2,
+   "gameplay": "available",
+   "unresolved": "A second \"12\" is printed north of the Razorback Ranges."
+  },
+  {
+   "id": "sandglass_camp",
+   "name": "Sandglass Camp",
+   "kind": "outpost",
+   "px": [
+    590,
+    403
+   ],
+   "map_no": 13,
+   "pop": 450,
+   "area_km2": 1,
+   "gameplay": "available"
+  },
+  {
+   "id": "titan_watch",
+   "name": "Titan Watch",
+   "kind": "outpost",
+   "px": [
+    940,
+    153
+   ],
+   "map_no": 14,
+   "pop": 3700,
+   "area_km2": 3,
+   "gameplay": "confirmed",
+   "notes": "Commander Joren Pike. Frontier permits & security."
+  },
+  {
+   "id": "longtrail_outpost",
+   "name": "Longtrail Outpost",
+   "kind": "outpost",
+   "px": [
+    691,
+    673
+   ],
+   "map_no": 15,
+   "pop": 2300,
+   "area_km2": 2,
+   "gameplay": "available"
+  },
+  {
+   "id": "site_ashen_e",
+   "name": "Unnamed outpost (printed \"3\")",
+   "kind": "outpost",
+   "px": [
+    734,
+    172
+   ],
+   "map_no": null,
+   "gameplay": "available",
+   "unresolved": "Duplicate number on atlas (Ashen Reach, east (below Hive Beta)). Candidate names: Red Mesa Post, Scorpion Watch, Coyote Crossing."
+  },
+  {
+   "id": "site_south_e",
+   "name": "Unnamed outpost (printed \"3\")",
+   "kind": "outpost",
+   "px": [
+    1097,
+    805
+   ],
+   "map_no": null,
+   "gameplay": "available",
+   "unresolved": "Duplicate number on atlas (Southreach, east coast). Candidate names: Red Mesa Post, Scorpion Watch, Coyote Crossing."
+  },
+  {
+   "id": "site_south_w",
+   "name": "Unnamed outpost (printed \"9\")",
+   "kind": "outpost",
+   "px": [
+    785,
+    872
+   ],
+   "map_no": null,
+   "gameplay": "available",
+   "unresolved": "Duplicate number on atlas (Southreach, south-west). Candidate names: Red Mesa Post, Scorpion Watch, Coyote Crossing."
+  },
+  {
+   "id": "site_north_w",
+   "name": "Unnamed outpost (printed \"12\")",
+   "kind": "outpost",
+   "px": [
+    618,
+    330
+   ],
+   "map_no": null,
+   "gameplay": "available",
+   "unresolved": "Duplicate number on atlas (Northern Meridian, west of the Titanspine). Candidate names: Red Mesa Post, Scorpion Watch, Coyote Crossing."
+  },
+  {
+   "id": "hive_alpha",
+   "name": "Hive Alpha",
+   "kind": "hive",
+   "px": [
+    440,
+    145
+   ],
+   "hostile": true,
+   "gameplay": "available"
+  },
+  {
+   "id": "hive_beta",
+   "name": "Hive Beta",
+   "kind": "hive",
+   "px": [
+    707,
+    92
+   ],
+   "hostile": true,
+   "gameplay": "available"
+  },
+  {
+   "id": "j_titan_south",
+   "name": "Titan Watch Road Fork",
+   "kind": "junction",
+   "px": [
+    913,
+    218
+   ]
+  },
+  {
+   "id": "lake_zenith_shore",
+   "name": "Lake Zenith South Shore",
+   "kind": "landing",
+   "px": [
+    990,
+    298
+   ],
+   "gameplay": "confirmed",
+   "notes": "Lake Zenith (Fisher Joe). Road access point to the lake."
+  },
+  {
+   "id": "j_dustwall_east",
+   "name": "Dustwall Fork",
+   "kind": "junction",
+   "px": [
+    1010,
+    320
+   ]
+  },
+  {
+   "id": "j_meridian_sw",
+   "name": "Meridian South-West Fork",
+   "kind": "junction",
+   "px": [
+    590,
+    512
+   ]
+  },
+  {
+   "id": "titanspine_pass",
+   "name": "Titanspine Pass (road end)",
+   "kind": "pass",
+   "px": [
+    710,
+    366
+   ]
+  },
+  {
+   "id": "ironwood_landing",
+   "name": "Ironwood East Landing",
+   "kind": "port",
+   "px": [
+    1090,
+    630
+   ],
+   "notes": "Road from Ironwood Crossing ends at the Eastern Frontier Ocean coast."
+  },
+  {
+   "id": "kessar_mouth",
+   "name": "Kessar River Mouth (Kessar Bay harbour)",
+   "kind": "port",
+   "px": [
+    1112,
+    540
+   ]
+  },
+  {
+   "id": "ember_landing",
+   "name": "Ember Ridge Landing",
+   "kind": "port",
+   "px": [
+    687,
+    787
+   ]
+  },
+  {
+   "id": "wayfarers_landing",
+   "name": "Wayfarer's North Landing",
+   "kind": "port",
+   "px": [
+    968,
+    768
+   ]
+  },
+  {
+   "id": "kitsah_port",
+   "name": "Kitsah Docks",
+   "kind": "port",
+   "px": [
+    468,
+    645
+   ]
+  },
+  {
+   "id": "port_veyra_docks",
+   "name": "Port Veyra Docks",
+   "kind": "port",
+   "px": [
+    322,
+    530
+   ]
+  },
+  {
+   "id": "ardent_docks",
+   "name": "Ardent Harbor Docks",
+   "kind": "port",
+   "px": [
+    834,
+    712
+   ]
+  }
+ ],
+ "routes": [
+  {
+   "id": "port_veyra__razorback_station",
+   "a": "port_veyra",
+   "b": "razorback_station",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     338,
+     521
+    ],
+    [
+     385,
+     500
+    ],
+    [
+     430,
+     455
+    ],
+    [
+     482,
+     414
+    ]
+   ]
+  },
+  {
+   "id": "port_veyra__kitsah",
+   "a": "port_veyra",
+   "b": "kitsah",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     338,
+     521
+    ],
+    [
+     400,
+     540
+    ],
+    [
+     425,
+     580
+    ],
+    [
+     470,
+     620
+    ]
+   ]
+  },
+  {
+   "id": "horizon_point__sandglass_camp",
+   "a": "horizon_point",
+   "b": "sandglass_camp",
+   "mode": "road",
+   "confidence": "inferred",
+   "px": [
+    [
+     400,
+     318
+    ],
+    [
+     440,
+     345
+    ],
+    [
+     470,
+     352
+    ],
+    [
+     520,
+     375
+    ],
+    [
+     580,
+     390
+    ],
+    [
+     590,
+     403
+    ]
+   ]
+  },
+  {
+   "id": "sandglass_camp__dry_river_post",
+   "a": "sandglass_camp",
+   "b": "dry_river_post",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     590,
+     403
+    ],
+    [
+     635,
+     423
+    ],
+    [
+     660,
+     440
+    ],
+    [
+     667,
+     457
+    ]
+   ]
+  },
+  {
+   "id": "dry_river_post__zixel",
+   "a": "dry_river_post",
+   "b": "zixel",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     667,
+     457
+    ],
+    [
+     695,
+     465
+    ],
+    [
+     717,
+     470
+    ]
+   ]
+  },
+  {
+   "id": "zixel__j_meridian_sw",
+   "a": "zixel",
+   "b": "j_meridian_sw",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     717,
+     470
+    ],
+    [
+     680,
+     505
+    ],
+    [
+     640,
+     507
+    ],
+    [
+     590,
+     512
+    ]
+   ]
+  },
+  {
+   "id": "j_meridian_sw__stonewell",
+   "a": "j_meridian_sw",
+   "b": "stonewell",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     590,
+     512
+    ],
+    [
+     575,
+     545
+    ],
+    [
+     560,
+     572
+    ],
+    [
+     546,
+     592
+    ]
+   ]
+  },
+  {
+   "id": "j_meridian_sw__kitsah",
+   "a": "j_meridian_sw",
+   "b": "kitsah",
+   "mode": "road",
+   "confidence": "inferred",
+   "px": [
+    [
+     590,
+     512
+    ],
+    [
+     600,
+     540
+    ],
+    [
+     590,
+     590
+    ],
+    [
+     575,
+     640
+    ],
+    [
+     520,
+     643
+    ],
+    [
+     470,
+     620
+    ]
+   ]
+  },
+  {
+   "id": "zixel__longtrail_outpost",
+   "a": "zixel",
+   "b": "longtrail_outpost",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     717,
+     470
+    ],
+    [
+     723,
+     527
+    ],
+    [
+     723,
+     607
+    ],
+    [
+     707,
+     653
+    ],
+    [
+     691,
+     673
+    ]
+   ]
+  },
+  {
+   "id": "zixel__dunefall",
+   "a": "zixel",
+   "b": "dunefall",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     717,
+     470
+    ],
+    [
+     755,
+     505
+    ],
+    [
+     800,
+     505
+    ],
+    [
+     850,
+     495
+    ],
+    [
+     885,
+     466
+    ]
+   ]
+  },
+  {
+   "id": "zixel__unknown_city_n",
+   "a": "zixel",
+   "b": "unknown_city_n",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     717,
+     470
+    ],
+    [
+     745,
+     470
+    ],
+    [
+     775,
+     455
+    ],
+    [
+     780,
+     402
+    ],
+    [
+     787,
+     358
+    ]
+   ]
+  },
+  {
+   "id": "unknown_city_n__titanspine_pass",
+   "a": "unknown_city_n",
+   "b": "titanspine_pass",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     787,
+     358
+    ],
+    [
+     767,
+     367
+    ],
+    [
+     710,
+     366
+    ]
+   ]
+  },
+  {
+   "id": "unknown_city_n__dunefall",
+   "a": "unknown_city_n",
+   "b": "dunefall",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     787,
+     358
+    ],
+    [
+     810,
+     380
+    ],
+    [
+     830,
+     420
+    ],
+    [
+     850,
+     450
+    ],
+    [
+     885,
+     466
+    ]
+   ]
+  },
+  {
+   "id": "unknown_city_n__j_titan_south",
+   "a": "unknown_city_n",
+   "b": "j_titan_south",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     787,
+     358
+    ],
+    [
+     807,
+     330
+    ],
+    [
+     827,
+     297
+    ],
+    [
+     847,
+     267
+    ],
+    [
+     853,
+     240
+    ],
+    [
+     877,
+     220
+    ],
+    [
+     913,
+     218
+    ]
+   ]
+  },
+  {
+   "id": "titan_watch__j_titan_south",
+   "a": "titan_watch",
+   "b": "j_titan_south",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     940,
+     153
+    ],
+    [
+     933,
+     190
+    ],
+    [
+     913,
+     218
+    ]
+   ]
+  },
+  {
+   "id": "j_titan_south__lake_zenith_shore",
+   "a": "j_titan_south",
+   "b": "lake_zenith_shore",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     913,
+     218
+    ],
+    [
+     933,
+     247
+    ],
+    [
+     953,
+     273
+    ],
+    [
+     990,
+     298
+    ]
+   ]
+  },
+  {
+   "id": "lake_zenith_shore__j_dustwall_east",
+   "a": "lake_zenith_shore",
+   "b": "j_dustwall_east",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     990,
+     298
+    ],
+    [
+     1010,
+     313
+    ],
+    [
+     1010,
+     320
+    ]
+   ]
+  },
+  {
+   "id": "j_dustwall_east__kessar_bay",
+   "a": "j_dustwall_east",
+   "b": "kessar_bay",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     1010,
+     320
+    ],
+    [
+     1013,
+     353
+    ],
+    [
+     1030,
+     385
+    ],
+    [
+     1072,
+     398
+    ]
+   ]
+  },
+  {
+   "id": "unknown_city_n__dustwall_camp",
+   "a": "unknown_city_n",
+   "b": "dustwall_camp",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     787,
+     358
+    ],
+    [
+     810,
+     370
+    ],
+    [
+     833,
+     367
+    ],
+    [
+     867,
+     373
+    ],
+    [
+     892,
+     357
+    ],
+    [
+     895,
+     332
+    ]
+   ]
+  },
+  {
+   "id": "dustwall_camp__j_dustwall_east",
+   "a": "dustwall_camp",
+   "b": "j_dustwall_east",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     895,
+     332
+    ],
+    [
+     920,
+     327
+    ],
+    [
+     953,
+     320
+    ],
+    [
+     1010,
+     320
+    ]
+   ]
+  },
+  {
+   "id": "dunefall__kessar_bay",
+   "a": "dunefall",
+   "b": "kessar_bay",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     885,
+     466
+    ],
+    [
+     920,
+     480
+    ],
+    [
+     1000,
+     480
+    ],
+    [
+     1050,
+     450
+    ],
+    [
+     1072,
+     398
+    ]
+   ]
+  },
+  {
+   "id": "dunefall__ardent_harbor",
+   "a": "dunefall",
+   "b": "ardent_harbor",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     885,
+     466
+    ],
+    [
+     880,
+     510
+    ],
+    [
+     865,
+     585
+    ],
+    [
+     850,
+     645
+    ],
+    [
+     834,
+     692
+    ]
+   ]
+  },
+  {
+   "id": "dunefall__ironwood_crossing",
+   "a": "dunefall",
+   "b": "ironwood_crossing",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     885,
+     466
+    ],
+    [
+     900,
+     520
+    ],
+    [
+     950,
+     570
+    ],
+    [
+     1010,
+     590
+    ]
+   ]
+  },
+  {
+   "id": "ironwood_crossing__ironwood_landing",
+   "a": "ironwood_crossing",
+   "b": "ironwood_landing",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     1010,
+     590
+    ],
+    [
+     1025,
+     620
+    ],
+    [
+     1090,
+     630
+    ]
+   ]
+  },
+  {
+   "id": "kessar_bay__frontier_gate",
+   "a": "kessar_bay",
+   "b": "frontier_gate",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     1072,
+     398
+    ],
+    [
+     1120,
+     420
+    ],
+    [
+     1167,
+     481
+    ]
+   ]
+  },
+  {
+   "id": "kessar_bay__kessar_mouth",
+   "a": "kessar_bay",
+   "b": "kessar_mouth",
+   "mode": "road",
+   "confidence": "inferred",
+   "px": [
+    [
+     1072,
+     398
+    ],
+    [
+     1085,
+     450
+    ],
+    [
+     1100,
+     500
+    ],
+    [
+     1112,
+     540
+    ]
+   ]
+  },
+  {
+   "id": "hive_alpha__blackrock_station",
+   "a": "hive_alpha",
+   "b": "blackrock_station",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     440,
+     145
+    ],
+    [
+     455,
+     190
+    ],
+    [
+     472,
+     220
+    ]
+   ]
+  },
+  {
+   "id": "hive_beta__site_ashen_e",
+   "a": "hive_beta",
+   "b": "site_ashen_e",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     707,
+     92
+    ],
+    [
+     712,
+     140
+    ],
+    [
+     734,
+     172
+    ]
+   ]
+  },
+  {
+   "id": "wayfarers_rest__iron_junction",
+   "a": "wayfarers_rest",
+   "b": "iron_junction",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     973,
+     820
+    ],
+    [
+     985,
+     850
+    ],
+    [
+     1000,
+     880
+    ],
+    [
+     980,
+     912
+    ]
+   ]
+  },
+  {
+   "id": "wayfarers_rest__wayfarers_landing",
+   "a": "wayfarers_rest",
+   "b": "wayfarers_landing",
+   "mode": "road",
+   "confidence": "inferred",
+   "px": [
+    [
+     973,
+     820
+    ],
+    [
+     968,
+     768
+    ]
+   ]
+  },
+  {
+   "id": "ember_ridge__ember_landing",
+   "a": "ember_ridge",
+   "b": "ember_landing",
+   "mode": "road",
+   "confidence": "traced",
+   "px": [
+    [
+     705,
+     805
+    ],
+    [
+     687,
+     787
+    ]
+   ]
+  },
+  {
+   "id": "kitsah__kitsah_port",
+   "a": "kitsah",
+   "b": "kitsah_port",
+   "mode": "road",
+   "confidence": "inferred",
+   "px": [
+    [
+     470,
+     620
+    ],
+    [
+     468,
+     645
+    ]
+   ]
+  },
+  {
+   "id": "port_veyra__port_veyra_docks",
+   "a": "port_veyra",
+   "b": "port_veyra_docks",
+   "mode": "road",
+   "confidence": "inferred",
+   "px": [
+    [
+     338,
+     521
+    ],
+    [
+     322,
+     530
+    ]
+   ]
+  },
+  {
+   "id": "ardent_harbor__ardent_docks",
+   "a": "ardent_harbor",
+   "b": "ardent_docks",
+   "mode": "road",
+   "confidence": "inferred",
+   "px": [
+    [
+     834,
+     692
+    ],
+    [
+     834,
+     712
+    ]
+   ]
+  },
+  {
+   "id": "sea:port_veyra_docks__kitsah_port",
+   "a": "port_veyra_docks",
+   "b": "kitsah_port",
+   "mode": "sea",
+   "confidence": "proposed",
+   "px": [
+    [
+     322,
+     530
+    ],
+    [
+     300,
+     600
+    ],
+    [
+     350,
+     690
+    ],
+    [
+     430,
+     690
+    ],
+    [
+     468,
+     660
+    ]
+   ]
+  },
+  {
+   "id": "sea:kitsah_port__ardent_docks",
+   "a": "kitsah_port",
+   "b": "ardent_docks",
+   "mode": "sea",
+   "confidence": "proposed",
+   "px": [
+    [
+     468,
+     660
+    ],
+    [
+     560,
+     720
+    ],
+    [
+     700,
+     735
+    ],
+    [
+     800,
+     725
+    ],
+    [
+     834,
+     712
+    ]
+   ]
+  },
+  {
+   "id": "sea:ardent_docks__ember_landing",
+   "a": "ardent_docks",
+   "b": "ember_landing",
+   "mode": "sea",
+   "confidence": "proposed",
+   "px": [
+    [
+     834,
+     712
+    ],
+    [
+     760,
+     745
+    ],
+    [
+     687,
+     787
+    ]
+   ]
+  },
+  {
+   "id": "sea:ardent_docks__wayfarers_landing",
+   "a": "ardent_docks",
+   "b": "wayfarers_landing",
+   "mode": "sea",
+   "confidence": "proposed",
+   "px": [
+    [
+     834,
+     712
+    ],
+    [
+     900,
+     740
+    ],
+    [
+     968,
+     768
+    ]
+   ]
+  },
+  {
+   "id": "sea:kessar_mouth__ironwood_landing",
+   "a": "kessar_mouth",
+   "b": "ironwood_landing",
+   "mode": "sea",
+   "confidence": "proposed",
+   "px": [
+    [
+     1112,
+     540
+    ],
+    [
+     1135,
+     580
+    ],
+    [
+     1090,
+     630
+    ]
+   ]
+  },
+  {
+   "id": "sea:ironwood_landing__wayfarers_landing",
+   "a": "ironwood_landing",
+   "b": "wayfarers_landing",
+   "mode": "sea",
+   "confidence": "proposed",
+   "px": [
+    [
+     1090,
+     630
+    ],
+    [
+     1130,
+     700
+    ],
+    [
+     1060,
+     745
+    ],
+    [
+     968,
+     768
+    ]
+   ]
+  },
+  {
+   "id": "air:zixel__kitsah",
+   "a": "zixel",
+   "b": "kitsah",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
+   "id": "air:zixel__port_veyra",
+   "a": "zixel",
+   "b": "port_veyra",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
+   "id": "air:zixel__dunefall",
+   "a": "zixel",
+   "b": "dunefall",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
+   "id": "air:zixel__kessar_bay",
+   "a": "zixel",
+   "b": "kessar_bay",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
+   "id": "air:zixel__wayfarers_rest",
+   "a": "zixel",
+   "b": "wayfarers_rest",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
+   "id": "air:zixel__titan_watch",
+   "a": "zixel",
+   "b": "titan_watch",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
+   "id": "air:kitsah__wayfarers_rest",
+   "a": "kitsah",
+   "b": "wayfarers_rest",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  },
+  {
+   "id": "air:kessar_bay__wayfarers_rest",
+   "a": "kessar_bay",
+   "b": "wayfarers_rest",
+   "mode": "air",
+   "confidence": "proposed",
+   "px": []
+  }
+ ],
+ "trade_corridors": [
+  {
+   "id": "meridian_trunk",
+   "name": "Meridian Trunk",
+   "status": "derived from atlas roads",
+   "path": [
+    "port_veyra",
+    "kitsah",
+    "j_meridian_sw",
+    "zixel",
+    "dunefall",
+    "kessar_bay"
+   ],
+   "suggested_goods": [
+    "shipping freight",
+    "manufactured goods",
+    "passengers"
+   ],
+   "note": "Coast-to-coast spine across the Meridian Expanse."
+  },
+  {
+   "id": "highland_road",
+   "name": "Highland Road",
+   "status": "derived from atlas roads",
+   "path": [
+    "titan_watch",
+    "j_titan_south",
+    "lake_zenith_shore",
+    "j_dustwall_east",
+    "kessar_bay"
+   ],
+   "suggested_goods": [
+    "frontier permits",
+    "lake fish",
+    "fresh water"
+   ],
+   "note": "Northern frontier route past Lake Zenith."
+  },
+  {
+   "id": "titanspine_north",
+   "name": "Titanspine North Road",
+   "status": "derived from atlas roads",
+   "path": [
+    "zixel",
+    "unknown_city_n",
+    "j_titan_south",
+    "titan_watch"
+   ],
+   "suggested_goods": [
+    "military supply",
+    "ore"
+   ]
+  },
+  {
+   "id": "western_frontier",
+   "name": "Western Frontier Road",
+   "status": "derived from atlas roads",
+   "path": [
+    "port_veyra",
+    "razorback_station"
+   ],
+   "suggested_goods": [
+    "salvage"
+   ],
+   "note": "Road also runs Horizon Point–Sandglass–Dry River–Zixel (the Horizon segment is inferred)."
+  },
+  {
+   "id": "ironwood_timber",
+   "name": "Ironwood Road",
+   "status": "derived from atlas roads",
+   "path": [
+    "dunefall",
+    "ironwood_crossing",
+    "ironwood_landing"
+   ],
+   "suggested_goods": [
+    "timber",
+    "forest goods"
+   ]
+  },
+  {
+   "id": "southern_road",
+   "name": "Ardent Road",
+   "status": "derived from atlas roads",
+   "path": [
+    "zixel",
+    "dunefall",
+    "ardent_harbor"
+   ],
+   "suggested_goods": [
+    "desert minerals",
+    "sea freight"
+   ]
+  },
+  {
+   "id": "equatorial_lane",
+   "name": "Equatorial Sea Lane",
+   "status": "proposed",
+   "path": [
+    "port_veyra_docks",
+    "kitsah_port",
+    "ardent_docks",
+    "wayfarers_landing"
+   ],
+   "suggested_goods": [
+    "bulk freight",
+    "passengers"
+   ],
+   "note": "Links the main continent to Southreach. Not drawn on the atlas."
+  },
+  {
+   "id": "transit_air",
+   "name": "Transit Airship Network",
+   "status": "proposed",
+   "path": [
+    "zixel",
+    "kitsah",
+    "wayfarers_rest"
+   ],
+   "suggested_goods": [
+    "passengers",
+    "mail",
+    "priority cargo"
+   ],
+   "note": "Kitsah and Wayfarer's Rest are the atlas \"Transit Hubs\"."
+  }
+ ],
+ "regions": [
+  {
+   "name": "The Ashen Reach",
+   "sub": "Hive Continent — hostile",
+   "px": [
+    555,
+    105
+   ]
+  },
+  {
+   "name": "The Shattered Expanse",
+   "px": [
+    595,
+    162
+   ]
+  },
+  {
+   "name": "Emerald Canopy",
+   "px": [
+    390,
+    355
+   ]
+  },
+  {
+   "name": "The Meridian Expanse",
+   "px": [
+    750,
+    563
+   ]
+  },
+  {
+   "name": "Ironwood Forest",
+   "px": [
+    1082,
+    340
+   ],
+   "gameplay": "confirmed"
+  },
+  {
+   "name": "Red Fang Peaks",
+   "px": [
+    1000,
+    172
+   ]
+  },
+  {
+   "name": "Titanspine Mountains",
+   "px": [
+    740,
+    420
+   ]
+  },
+  {
+   "name": "Razorback Ranges",
+   "px": [
+    540,
+    490
+   ]
+  },
+  {
+   "name": "Southreach",
+   "sub": "Southern Continent",
+   "px": [
+    835,
+    825
+   ]
+  },
+  {
+   "name": "Mistwood Basin",
+   "px": [
+    1025,
+    820
+   ]
+  },
+  {
+   "name": "Stormbreaker Range",
+   "px": [
+    860,
+    765
+   ]
+  }
+ ],
+ "waters": [
+  {
+   "name": "Western Drift Ocean",
+   "kind": "ocean",
+   "px": [
+    265,
+    468
+   ]
+  },
+  {
+   "name": "Eastern Frontier Ocean",
+   "kind": "ocean",
+   "px": [
+    1240,
+    540
+   ]
+  },
+  {
+   "name": "Equatorial Sea",
+   "kind": "sea",
+   "px": [
+    530,
+    740
+   ]
+  },
+  {
+   "name": "Lake Zenith",
+   "kind": "lake",
+   "px": [
+    1000,
+    252
+   ],
+   "note": "Northeast highland lake, feeds River Kessar.",
+   "gameplay": "confirmed"
+  },
+  {
+   "name": "Lake Veyra",
+   "kind": "lake",
+   "px": [
+    662,
+    622
+   ],
+   "note": "South-central lake, feeds River Ardent. Candidate for Garrick Tane's unspecified lake."
+  },
+  {
+   "name": "River Vex",
+   "kind": "river",
+   "px": [
+    490,
+    510
+   ],
+   "note": "Titanspine Mountains → Western Drift Ocean."
+  },
+  {
+   "name": "River Ardent",
+   "kind": "river",
+   "px": [
+    695,
+    735
+   ],
+   "note": "Central mountains → Equatorial Sea."
+  },
+  {
+   "name": "River Kessar",
+   "kind": "river",
+   "px": [
+    1060,
+    470
+   ],
+   "note": "Through Ironwood Forest → Eastern Frontier Ocean."
+  },
+  {
+   "name": "River Solis",
+   "kind": "river",
+   "px": [
+    915,
+    865
+   ],
+   "note": "Through the Stormbreaker Range → Equatorial Sea."
+  }
+ ],
+ "open_questions": [
+  "Outposts Red Mesa Post (1), Scorpion Watch (2) and Coyote Crossing (8) have no marker on the atlas, while numbers 3, 9 and 12 are printed more than once. Assign names to the duplicate markers.",
+  "An unnamed city icon numbered \"3\" sits north of Zixel (Port Veyra is city 3 on the west coast).",
+  "A stray \"7\" label is printed beside Kessar Bay with no outpost triangle.",
+  "Kessar Bay is listed as a coastal city but drawn ~120 km inland on the River Kessar.",
+  "Atlas land covers ~30% of the sphere (~40% of the mapped 270 deg), but the stated surface water is 38% (62% land).",
+  "Western Act V facility city is still TBD; Port Veyra is the only major western city on the atlas.",
+  "Bible lists 5 additional cities and 4 outposts for gameplay; confirmed so far: Kitsah, Kessar Bay, Wayfarer's Rest (+ Port Veyra via side mission S3-01) and Titan Watch."
+ ]
+}

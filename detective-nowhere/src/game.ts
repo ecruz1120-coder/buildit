@@ -690,7 +690,7 @@ export class Game {
     switch (this.mode) {
       case 'play': this.updatePlay(dt); break;
       case 'dialogue': this.dialogue.update(); this.updateWorld(dt * 0); break;
-      case 'menu': this.holo.update(); break;
+      case 'menu': this.holo.update(dt); break;
       case 'inspect': this.inspector.update(dt); break;
       case 'hack': this.updateHack(dt); break;
       case 'qte': this.qte.update(dt); this.updateWorld(dt * 0.08); break;
