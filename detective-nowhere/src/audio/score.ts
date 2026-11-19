@@ -3,7 +3,7 @@
  * The same function schedules into a live AudioContext (in game) or an OfflineAudioContext
  * (MP4 export), so picture and sound always line up. All times are seconds from the start.
  */
-export const INTRO_LENGTH = 90;
+export const INTRO_LENGTH = 92;
 
 type Ctx = BaseAudioContext;
 
@@ -82,6 +82,22 @@ export function scheduleScore(ctx: Ctx, out: AudioNode, t0 = 0) {
     n.connect(f); f.connect(g); g.connect(comp); n.start(T(start)); n.stop(T(end));
   };
 
+  /** Filtered-noise sweep (risers, whooshes). */
+  const sweep = (start: number, end: number, f0: number, f1: number, vol = 0.08) => {
+    const n = ctx.createBufferSource(); n.buffer = noise; n.loop = true;
+    const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 1.2;
+    f.frequency.setValueAtTime(f0, T(start)); f.frequency.exponentialRampToValueAtTime(f1, T(end));
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, T(start)); g.gain.linearRampToValueAtTime(vol, T(end - 0.15)); g.gain.linearRampToValueAtTime(0, T(end));
+    n.connect(f); f.connect(g); g.connect(comp); n.start(T(start)); n.stop(T(end + 0.05));
+  };
+  /** Low engine hum. */
+  const hum = (start: number, end: number, vol = 0.05) => {
+    const o = ctx.createOscillator(); o.type = 'sawtooth'; o.frequency.value = 46;
+    const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 240;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, T(start)); g.gain.linearRampToValueAtTime(vol, T(start + 0.8)); g.gain.setValueAtTime(vol, T(end - 0.6)); g.gain.linearRampToValueAtTime(0, T(end));
+    o.connect(f); f.connect(g); g.connect(comp); o.start(T(start)); o.stop(T(end + 0.05));
+  };
+
   // 0–5  cold open: ECG over darkness
   pad([38, 45, 53], 0, 6, 0.035, 500);
   for (let t = 0.6; t < 5; t += 0.9) beep(t);
@@ -110,15 +126,25 @@ export function scheduleScore(ctx: Ctx, out: AudioNode, t0 = 0) {
   rain(58, 68.5, 0.05);
   pad([33, 40, 48, 52], 58, 68.5, 0.05, 650);
   for (let t = 62; t < 68; t += 0.5) bass(t, t % 2 < 1 ? 33 : 36, 0.3, 0.1);
-  // 68–80.25 action montage: 120 bpm drive, hits on cuts
-  pad([33, 40, 45, 52], 68, 80.5, 0.04, 1200);
-  for (let t = 68; t < 80.2; t += 0.25) { bass(t, [33, 33, 45, 33, 36, 33, 43, 33][Math.round((t - 68) * 4) % 8], 0.18, 0.12); if (Math.round(t * 4) % 2 === 1) tick(t); }
-  for (let t = 68; t < 80; t += 1.75) hit(t, 0.3, 50);
-  // 80.25–90 arrival + title
-  pad([33, 45, 52, 57, 64], 80.2, 90, 0.055, 1800);
-  hit(80.25, 0.4, 45);
-  hit(86.5, 0.6, 38);
-  bell(86.5, 57, 0.14, 3.4); bell(86.5, 69, 0.08, 3.4);
+  // 68–71 match-cut into space: riser
+  pad([33, 40, 45, 52], 67.5, 71.4, 0.05, 900);
+  sweep(68.2, 71.0, 400, 5200, 0.07);
+  // 71–75.5 space approach, atmospheric entry whoosh
+  pad([33, 45, 52, 57, 64], 71, 75.8, 0.05, 1600);
+  bell(71.1, 69, 0.07, 3); bell(72.6, 76, 0.05, 3);
+  sweep(74.2, 75.9, 300, 3000, 0.12);
+  // 75.5–80.25 landing in Zixel: engine hum, touchdown
+  hum(75.5, 79.2, 0.05);
+  pad([36, 43, 48, 55], 75.5, 80.4, 0.045, 1100);
+  hit(78.6, 0.35, 42);
+  // 80.25–88.5 gameplay montage: 120 bpm drive, a hit on every cut (1.375 s)
+  pad([33, 40, 45, 52], 80.1, 88.7, 0.04, 1200);
+  for (let t = 80.25; t < 88.45; t += 0.25) { bass(t, [33, 33, 45, 33, 36, 33, 43, 33][Math.round((t - 80.25) * 4) % 8], 0.18, 0.12); if (Math.round(t * 4) % 2 === 1) tick(t); }
+  for (let i = 0; i < 6; i++) hit(80.25 + i * 1.375, 0.3, 50);
+  // 88.5–92 title
+  pad([33, 45, 52, 57, 64], 88.4, 92, 0.055, 1800);
+  hit(88.6, 0.6, 38);
+  bell(88.6, 57, 0.14, 3.4); bell(88.6, 69, 0.08, 3.4);
 }
 
 /** Render the score offline and return a 16-bit PCM WAV (for the MP4 export). */

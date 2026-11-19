@@ -1,4 +1,4 @@
-# Opening Cinematic — "Detective Nowhere: The Coin Conspiracy" (≈90 s)
+# Opening Cinematic — "Detective Nowhere: The Coin Conspiracy" (≈92 s)
 
 Plays automatically on **New Game**. Rewatch it from the title screen with **Watch the Opening**. Skip with Esc/E or B/A.
 - **Code:** `src/modes/intro.ts` (shots and captions), `src/audio/score.ts` (synthesized score).
@@ -15,9 +15,11 @@ The narration is Cedric's voice, shown as subtitles. Every line and timing lives
 | 0:40–0:49 | The fall | Holo-news headlines circle him ("SURGEON BLAMED…", "MEDICAL LICENSE REVOKED"), camera flashes, the crowd turns its back | "They needed someone to blame." / "They chose the man holding the scalpel." |
 | 0:49–0:58 | The family | Warm home, family at the table → night, masked silhouettes in the doorway → empty room, a coin spinning on the floor | "My family stood by me through all of it." / "Weeks later, someone came for them." / "They left one thing behind." |
 | 0:58–1:08 | The detective | Cedric in his longcoat walking through neon rain → evidence wall, every string leading to the coin | "I put down the scalpel. I picked up the trail." / "One year hunting a name that only exists in whispers: the Coin." |
-| 1:08–1:20 | What you'll do (hard-cut montage, 1.75 s each) | Sneak past a vision cone · HoloBand scan · Mimic disguise · ambush with dodge prompt · scalpel takedown from behind · side-view chase · evidence inspector | MOVE UNSEEN · SEE WHAT OTHERS MISS · WEAR ANY FACE · SURVIVE THE AMBUSH · STRIKE FROM THE SHADOWS · RUN THEM DOWN · EVERY CHOICE CLOSES A DOOR |
-| 1:20–1:24 | Ryzen-5 | The planet from orbit (real terrain, Zixel's hemisphere) | **RYZEN-5** — "My best lead in a year points to one world." |
-| 1:24–1:30 | Zixel | Night skyline, airship descending | **ZIXEL · VEYRA DISTRICT** — "Zixel. A contact named Elias Venn." → title **DETECTIVE NOWHERE — THE COIN CONSPIRACY** — "Whoever they are — I am coming." |
+| 1:08–1:11 | Match-cut | The camera pushes into the evidence wall's "RYZEN-5? / CONTACT: E. VENN" card, which blooms cyan into space | "Then, at last, the trail gave me a place." |
+| 1:11–1:15 | Approach | Riding behind Cedric's transport as Ryzen-5 grows ahead; atmospheric entry heat-glow, bloom to orange | **RYZEN-5** — "My best lead in a year points to one world." |
+| 1:15–1:20 | Landing | The transport descends through the Zixel night skyline onto a pad; the ramp drops and Cedric steps off toward camera | **ZIXEL · VEYRA DISTRICT** — "Zixel. A contact named Elias Venn." |
+| 1:20–1:28 | What you'll do (hard cuts, 1.375 s each) | ① Sneaking past a guard's vision cone ② The Mimic Device turns Cedric into an operative ③ Shooting: dodge roll, return fire, a hit ④ Scalpel assassination from behind ⑤ A conversation with a stranger (street vendor), with the in-game dialogue panel showing a Quantum Art option ⑥ Travelling the planet: a transport flying the real Ryzen-5 overworld from Zixel toward Kitsah | MOVE UNSEEN · WEAR ANY FACE · SURVIVE THE AMBUSH · STRIKE FROM THE SHADOWS · QUESTION EVERYONE · CROSS A WORLD THAT KEEPS ITS SECRETS |
+| 1:28–1:32 | Title | Cedric on the landing pad, looking out over Zixel | **DETECTIVE NOWHERE — THE COIN CONSPIRACY** — "Whoever they are — I am coming." |
 
 ## Spoiler guardrails
 The opening does **not** show or hint at any of these:
@@ -37,7 +39,7 @@ The official's death is presented exactly as Cedric experienced it: everything l
 6. **The "Holonews" headline wording** and **"Doctor Cedric Farsight"** are my placeholders.
 
 ## Visual and audio notes
-- Everything is built in-engine with the retro pixel pipeline, letterboxed to 2.39:1.
+- Everything is built in-engine, letterboxed to 2.39:1. The cinematic renders at full resolution, so faces read clearly; the retro colour grading (posterize and dither) stays.
 - Cedric uses his real V2 model, re-dressed for each era: graduation robe, surgical scrubs, dark suit, then his longcoat.
 - The score is fully synthesized:
   - a warm pad for the graduation;
@@ -46,6 +48,7 @@ The official's death is presented exactly as Cedric experienced it: everything l
   - low hits for the fall;
   - a bell for the coin;
   - rain;
-  - a 120 BPM drive under the montage;
+  - a riser into the match-cut, then a whoosh for the atmospheric entry and a touchdown hit;
+  - a 120 BPM drive under the montage, with a hit on every cut;
   - a title hit on "DETECTIVE NOWHERE".
 - Narration is subtitles only. The `CAPTIONS` timings are already spaced for a voice-over if you record one.

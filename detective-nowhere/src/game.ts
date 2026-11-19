@@ -18,7 +18,7 @@ import { Qte } from './ui/qte';
 import { ChaseMode } from './modes/chase';
 import { Overworld } from './modes/overworld';
 import { IntroCinematic } from './modes/intro';
-import { renderScoreWav } from './audio/score';
+import { renderScoreWav, INTRO_LENGTH as INTRO_LEN } from './audio/score';
 import { NODE } from './world/planet';
 import { Nav, esc } from './ui/nav';
 import { box } from './render/props';
@@ -54,6 +54,7 @@ export class Game {
   chase!: ChaseMode;
   world!: Overworld;
   readonly intro = new IntroCinematic();
+  readonly introLength = INTRO_LEN;
   /** Export hook for the MP4 trailer (tools/export_intro.cjs). */
   renderScoreWav = renderScoreWav;
   /** True while the player is on the Ryzen-5 overworld (menus opened there return to it). */
@@ -109,7 +110,7 @@ export class Game {
     this.hud.show(false);
     this.mode = 'intro';
     const px = this.pixel.pixelScale;
-    this.pixel.pixelScale = 2; this.resize();
+    this.pixel.pixelScale = 1; this.resize(); // full resolution so faces read clearly
     this.intro.start(() => { this.pixel.pixelScale = px; this.resize(); this.mode = 'title'; next(); });
   }
 
@@ -124,6 +125,7 @@ export class Game {
     this.chase = new ChaseMode(this);
     this.world = new Overworld(this);
     this.world.init().catch((e) => console.error('Overworld failed to load', e));
+    this.intro.world = this.world;
     // Interior point lights (practical lighting, Bible §1)
     const lights: [number, number, number, string][] = [[3, 0, 3, '#ffcf9a'], [15, 0, 3, '#ffcf9a'], [9.5, 0, 10, '#cfe6ff'], [4, 1, 10.8, '#ffb48a'], [9.5, 1, 6.6, '#cfe6ff'], [17, 0, 22, '#ff9a6a']];
     for (const [x, f, z, c] of lights) { const l = new THREE.PointLight(c, 14, 10, 1.4); l.position.set(x, 2.4, z); this.level.floorGroups[f].add(l); }

@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { box, mat, makeHumanoid, makeProp, animateLimbs, type Humanoid, type Look } from '../render/props';
 import { makeCedric, type Rig } from '../world/actors';
 import { scheduleScore, INTRO_LENGTH } from '../audio/score';
+import type { Overworld } from './overworld';
+import { NODE, ATLAS_W, ATLAS_H, greatCirclePx } from '../world/planet';
 
 /**
  * OPENING CINEMATIC — "Detective Nowhere: The Coin Conspiracy" (≈90 s).
@@ -30,19 +32,19 @@ export const CAPTIONS: Cap[] = [
   { a: 55.8, b: 57.8, text: 'They left one thing behind.', kind: 'narr' },
   { a: 58.6, b: 62.4, text: 'I put down the scalpel. I picked up the trail.', kind: 'narr' },
   { a: 62.8, b: 67.6, text: 'One year hunting a name that only exists in whispers: the Coin.', kind: 'narr' },
-  { a: 68.1, b: 69.7, text: 'MOVE UNSEEN', kind: 'tag' },
-  { a: 69.85, b: 71.45, text: 'SEE WHAT OTHERS MISS', kind: 'tag' },
-  { a: 71.6, b: 73.2, text: 'WEAR ANY FACE', kind: 'tag' },
-  { a: 73.35, b: 74.95, text: 'SURVIVE THE AMBUSH', kind: 'tag' },
-  { a: 75.1, b: 76.7, text: 'STRIKE FROM THE SHADOWS', kind: 'tag' },
-  { a: 76.85, b: 78.45, text: 'RUN THEM DOWN', kind: 'tag' },
-  { a: 78.6, b: 80.2, text: 'EVERY CHOICE CLOSES A DOOR', kind: 'tag' },
-  { a: 80.6, b: 83.8, text: 'My best lead in a year points to one world.', kind: 'narr' },
-  { a: 80.9, b: 83.8, text: 'RYZEN-5', kind: 'place' },
-  { a: 84.3, b: 86.4, text: 'Zixel. A contact named Elias Venn.', kind: 'narr' },
-  { a: 84.4, b: 86.3, text: 'ZIXEL · VEYRA DISTRICT', kind: 'place' },
-  { a: 86.9, b: 89.6, text: 'Whoever they are — I am coming.', kind: 'narr' },
-  { a: 86.5, b: 90.5, text: 'DETECTIVE NOWHERE', kind: 'title' },
+  { a: 68.3, b: 70.7, text: 'Then, at last, the trail gave me a place.', kind: 'narr' },
+  { a: 71.4, b: 75.2, text: 'My best lead in a year points to one world.', kind: 'narr' },
+  { a: 71.5, b: 75.2, text: 'RYZEN-5', kind: 'place' },
+  { a: 76.0, b: 79.9, text: 'Zixel. A contact named Elias Venn.', kind: 'narr' },
+  { a: 76.1, b: 79.9, text: 'ZIXEL · VEYRA DISTRICT', kind: 'place' },
+  { a: 80.35, b: 81.55, text: 'MOVE UNSEEN', kind: 'tag' },
+  { a: 81.725, b: 82.925, text: 'WEAR ANY FACE', kind: 'tag' },
+  { a: 83.1, b: 84.3, text: 'SURVIVE THE AMBUSH', kind: 'tag' },
+  { a: 84.475, b: 85.675, text: 'STRIKE FROM THE SHADOWS', kind: 'tag' },
+  { a: 85.85, b: 87.05, text: 'QUESTION EVERYONE', kind: 'tag' },
+  { a: 87.225, b: 88.425, text: 'CROSS A WORLD THAT KEEPS ITS SECRETS', kind: 'tag' },
+  { a: 88.9, b: 91.7, text: 'Whoever they are — I am coming.', kind: 'narr' },
+  { a: 88.6, b: 92.6, text: 'DETECTIVE NOWHERE', kind: 'title' },
 ];
 
 // ── helpers ──────────────────────────────────────────────────────────────
@@ -148,11 +150,15 @@ export class IntroCinematic {
   private onDone: (() => void) | null = null;
   current: { scene: THREE.Scene; cam: THREE.PerspectiveCamera; scan: number } | null = null;
   private el = () => document.getElementById('intro')!;
+  /** The overworld (Ryzen-5 terrain) for the planet-travel cut; set by Game. */
+  world: Overworld | null = null;
+  private evidence: { scene: THREE.Scene } | null = null;
+  private travelShip: THREE.Object3D | null = null;
 
   build() {
     if (this.built) return;
     this.built = true;
-    this.shots.push(this.coldOpen(), this.graduation(), ...this.career(), ...this.operation(), this.fall(), ...this.family(), ...this.detective(), ...this.montage(), ...this.arrival());
+    this.shots.push(this.coldOpen(), this.graduation(), ...this.career(), ...this.operation(), this.fall(), ...this.family(), ...this.detective(), ...this.arrival(), ...this.montage());
     this.shots.sort((x, y) => x.a - y.a);
   }
 
@@ -478,12 +484,120 @@ export class IntroCinematic {
     const b: Shot = { a: 63, b: 68, scene: s2, cam: c2, update: (t, k) => {
       dolly(c2, k, V(-2.6, 1.9, 4.6), V(0.0, 2.05, 0.4), V(0, 1.9, -2), V(0, 2.0, -2));
     } };
-    return [a, b];
+    this.evidence = { scene: s2 };
+    return [a, b, this.transitionShot()];
   }
 
-  // ── 68–80.25  gameplay montage (hard cuts, 1.75 s each) ──
+  // ── 68–71  match-cut: the lead on the evidence wall becomes the planet ──
+  private transitionShot(): Shot {
+    const ev = this.evidence!;
+    const c = cam(36);
+    return { a: 68, b: 71, scene: ev.scene, cam: c, hardCut: true, update: (t, k) => {
+      // push from the coin to the RYZEN-5 card (board-space 0.05, 0.92) until it fills the frame
+      dolly(c, k, V(0.0, 2.05, 0.4), V(-0.3, 1.0, -1.42), V(0, 2.0, -2), V(-0.3, 1.0, -2));
+    } };
+  }
+
+  // ── transport ship used for the approach, the landing and planet travel ──
+  private transport() {
+    const g = new THREE.Group();
+    const hullM = new THREE.MeshLambertMaterial({ color: '#7a8496' });
+    const hull = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 14), hullM); hull.scale.set(1.3, 0.7, 3.2); g.add(hull);
+    g.add(box(4.6, 0.12, 1.2, '#5a6478', 0, -0.05, 0.6), box(0.12, 1.1, 1.0, '#5a6478', 0, 0.4, 2.4));
+    const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 10), new THREE.MeshLambertMaterial({ color: '#6fd3e0', emissive: '#1a5a66' })); cockpit.scale.set(1, 0.6, 1.4); cockpit.position.set(0, 0.35, -2.2); g.add(cockpit);
+    const glowM = new THREE.MeshBasicMaterial({ color: '#7fe8ff', transparent: true, opacity: 0.9 });
+    const engines = [-0.8, 0.8].map((x) => { const e = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.36, 0.5, 12), glowM); e.rotation.x = Math.PI / 2; e.position.set(x, -0.1, 3.2); g.add(e); return e; });
+    const nav = [box(0.18, 0.18, 0.18, '#ff4040', -2.3, -0.1, 0.6, '#ff2020'), box(0.18, 0.18, 0.18, '#40ff80', 2.3, -0.1, 0.6, '#20ff60')]; g.add(...nav);
+    const ramp = new THREE.Group(); ramp.position.set(0, -0.55, -0.2); ramp.add(box(1.1, 0.08, 1.8, '#4a5262', 0, 0, 0.9)); g.add(ramp);
+    const thrust = new THREE.Mesh(new THREE.ConeGeometry(0.9, 2.2, 16, 1, true), new THREE.MeshBasicMaterial({ color: '#9fe8ff', transparent: true, opacity: 0.35, depthWrite: false })); thrust.rotation.x = Math.PI; thrust.position.set(0, -1.6, 0); g.add(thrust);
+    const heat = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 12), new THREE.MeshBasicMaterial({ color: '#ff9a40', transparent: true, opacity: 0, depthWrite: false, side: THREE.BackSide })); heat.scale.set(2.2, 1.6, 4.4); g.add(heat);
+    return { g, ramp, thrust, heat, nav, engines };
+  }
+
+  /** Night skyline of Zixel around a landing pad at the origin. */
+  private zixelCity() {
+    const z = stage('#070b18', 0.4, [70, 240]);
+    z.add(box(260, 0.1, 260, '#0c1018', 0, -0.1, 0));
+    const winTex = canvasTex(32, 64, (x) => { x.fillStyle = '#10141e'; x.fillRect(0, 0, 32, 64); for (let i = 0; i < 40; i++) if (rnd(i) > 0.5) { x.fillStyle = rnd(i + 1) > 0.7 ? '#6fd3e0' : '#f0c060'; x.fillRect((i % 4) * 8 + 2, Math.floor(i / 4) * 6 + 2, 4, 3); } });
+    winTex.wrapS = winTex.wrapT = THREE.RepeatWrapping; winTex.magFilter = THREE.NearestFilter;
+    for (let i = 0; i < 170; i++) {
+      const h = 6 + rnd(i) ** 2 * 46, w = 3 + rnd(i + 7) * 5;
+      const ang = rnd(i + 3) * Math.PI * 2, r = 24 + rnd(i + 5) * 80;
+      const geo = new THREE.BoxGeometry(w, h, w);
+      const uv = geo.getAttribute('uv') as THREE.BufferAttribute; for (let j = 0; j < uv.count; j++) uv.setXY(j, uv.getX(j) * w / 1.2, uv.getY(j) * h / 2.4);
+      const m = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ map: winTex, emissive: '#ffffff', emissiveMap: winTex, emissiveIntensity: 0.75 }));
+      m.position.set(Math.cos(ang) * r, h / 2, Math.sin(ang) * r - 20); z.add(m);
+    }
+    // landing pad
+    z.add(box(12, 0.5, 12, '#2a3038', 0, 0, 0));
+    for (let i = 0; i < 4; i++) { const a = (i / 4) * Math.PI * 2 + Math.PI / 4; z.add(box(0.5, 0.12, 0.5, '#6fd3e0', Math.cos(a) * 5.2, 0.5, Math.sin(a) * 5.2, '#2a8a99')); }
+    const ring = new THREE.Mesh(new THREE.RingGeometry(3.4, 3.7, 40), new THREE.MeshBasicMaterial({ color: '#f0b44a', side: THREE.DoubleSide })); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.52; z.add(ring);
+    const padL = new THREE.PointLight('#cfe6ff', 40, 18, 1.2); padL.position.set(0, 6, 6); z.add(padL);
+    return z;
+  }
+
+  // ── 71–75.5 space approach & atmospheric entry · 75.5–80.25 landing ──
+  private arrival(): Shot[] {
+    const s = stage('#000004', 0.25), c = cam(40);
+    const stars = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(Array.from({ length: 2400 }, (_, i) => (rnd(i) - 0.5) * 300), 3)), new THREE.PointsMaterial({ color: '#ffffff', size: 0.3 }));
+    s.add(stars);
+    const tc = document.createElement('canvas'); tc.width = 2048; tc.height = 1024;
+    const tx = tc.getContext('2d')!; tx.fillStyle = '#16384a'; tx.fillRect(0, 0, 2048, 1024);
+    const tex = new THREE.CanvasTexture(tc); tex.colorSpace = THREE.SRGBColorSpace;
+    const img = new Image(); img.onload = () => { tx.drawImage(img, 307, 0, 1536, 1024); tex.needsUpdate = true; }; img.src = `${import.meta.env.BASE_URL}world/ryzen5_terrain.jpg`;
+    const planet = new THREE.Mesh(new THREE.SphereGeometry(10, 128, 64), new THREE.MeshLambertMaterial({ map: tex })); s.add(planet);
+    const atmo = new THREE.Mesh(new THREE.SphereGeometry(10.5, 64, 32), new THREE.MeshBasicMaterial({ color: '#6fd3e0', transparent: true, opacity: 0.14, side: THREE.BackSide })); s.add(atmo);
+    const sun = new THREE.DirectionalLight('#fff4e0', 3.2); sun.position.set(-20, 12, 40); s.add(sun);
+    const ship = this.transport(); ship.g.scale.setScalar(0.12); s.add(ship.g);
+    const space: Shot = { a: 71, b: 75.5, scene: s, cam: c, hardCut: true, update: (t, k) => {
+      const lt = t - 71;
+      planet.rotation.set(0.12, -Math.PI / 2 - 0.25 + lt * 0.03, 0);
+      const e = ss(k);
+      ship.g.position.set(lerp(1.4, 0.2, e), lerp(1.2, 1.6, e), lerp(34, 11.4, e));
+      ship.g.rotation.set(0.05, Math.PI, 0);
+      const heat = ss((lt - 3.2) / 1.1); (ship.heat.material as THREE.MeshBasicMaterial).opacity = heat * 0.75; ship.thrust.visible = false;
+      ship.engines.forEach((en) => en.scale.setScalar(1 + Math.sin(t * 40) * 0.1));
+      // camera rides just behind and above the ship, planet growing ahead
+      const back = lerp(2.6, 1.2, e);
+      c.position.set(ship.g.position.x - 0.5, ship.g.position.y + 0.35, ship.g.position.z + back);
+      c.lookAt(lerp(0, 0.1, e), lerp(0.6, 1.4, e), 0);
+    } };
+    // landing in Zixel
+    const z = this.zixelCity(), c2 = cam(42);
+    const lander = this.transport(); z.add(lander.g);
+    const ced = cedric('coat'); z.add(ced.root);
+    const landing: Shot = { a: 75.5, b: 80.25, scene: z, cam: c2, hardCut: true, update: (t) => {
+      const lt = t - 75.5;
+      const d = ss(lt / 3.1);
+      lander.g.position.set(lerp(-14, 0, d), lerp(34, 1.25, d), lerp(-30, 0, d)); lander.g.rotation.set(0, lerp(0.8, 0.0, d) + Math.PI, 0);
+      (lander.heat.material as THREE.MeshBasicMaterial).opacity = Math.max(0, 0.5 - lt * 0.6);
+      lander.thrust.visible = lt < 3.3; lander.thrust.scale.y = 1 + Math.sin(t * 50) * 0.15;
+      lander.nav.forEach((n, i) => (n.visible = Math.floor(t * 2 + i) % 2 === 0));
+      lander.ramp.rotation.x = -ss((lt - 3.2) / 0.5) * 0.55;
+      // Cedric steps off the ramp toward camera
+      const w = ss((lt - 3.5) / 1.25);
+      ced.root.visible = lt > 3.45;
+      ced.root.position.set(0, lerp(0.95, 0.5, w), lerp(0.6, 3.6, w)); ced.root.rotation.y = 0;
+      animateLimbs(ced, lt * 7, w > 0 && w < 1 ? 1 : 0);
+      if (lt < 3.0) { c2.position.set(lerp(-22, -9, ss(lt / 3)), lerp(10, 5, ss(lt / 3)), lerp(30, 16, ss(lt / 3))); c2.lookAt(lander.g.position); }
+      else { const e = ss((lt - 3.0) / 1.75); c2.position.set(lerp(-9, 0.8, e), lerp(5, 2.15, e), lerp(16, 6.6, e)); c2.lookAt(lerp(0, 0, e), lerp(1.25, 1.95, e), lerp(0, 3.4, e)); }
+    } };
+    // title: Cedric at the pad edge, the city ahead
+    const c3 = cam(40);
+    const ced2 = cedric('coat'); z.add(ced2.root);
+    const title: Shot = { a: 88.5, b: LENGTH + 0.6, scene: z, cam: c3, update: (t, k) => {
+      ced.root.visible = false; ced2.root.visible = true;
+      lander.g.position.set(0, 1.25, 0); lander.ramp.rotation.x = -0.55; lander.thrust.visible = false;
+      ced2.root.position.set(2.0, 0.5, 4.4); ced2.root.rotation.y = Math.PI;
+      dolly(c3, k, V(2.4, 2.4, 9.0), V(2.0, 4.2, 6.5), V(0.2, 3.0, -12), V(0, 14, -70));
+    } };
+    landing.update = ((orig) => (t: number, k: number) => { ced2.root.visible = false; orig(t, k); })(landing.update);
+    return [space, landing, title];
+  }
+
+  // ── 80.25–88.5  what you'll do: six hard cuts ──
   private montage(): Shot[] {
-    const T0 = 68, D = 1.75;
+    const T0 = 80.25, D = 1.375;
     const shots: Shot[] = [];
     const facility = () => {
       const s = stage('#060a10', 0.55, [14, 40]);
@@ -501,162 +615,116 @@ export class IntroCinematic {
       const idx: number[] = []; for (let i = 0; i < n; i++) idx.push(0, i + 1, i + 2); g.setIndex(idx);
       return new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.25, side: THREE.DoubleSide, depthWrite: false }));
     };
-    // 1 — sneak past the vision cone (isometric)
+    const at = (i: number) => T0 + i * D;
+    // 1 — sneak past a guard's vision cone
     {
       const s = facility(), c = cam(32);
-      const guard = person(OP); guard.root.position.set(0, 0, 0); s.add(guard.root);
-      const cn = cone(5, 1.2); guard.root.add(cn);
+      const guard = person(OP); s.add(guard.root);
+      guard.root.add(cone(5, 1.2));
       const ced = cedric('coat'); s.add(ced.root);
-      shots.push({ a: T0, b: T0 + D, scene: s, cam: c, hardCut: true, update: (t) => {
-        const lt = t - T0;
-        guard.root.rotation.y = 0.6 + Math.sin(lt * 1.2) * 0.4;
-        ced.root.position.set(-2.6 + lt * 1.4, 0, -1.6); ced.root.rotation.y = Math.PI / 2;
+      shots.push({ a: at(0), b: at(1), scene: s, cam: c, hardCut: true, update: (t) => {
+        const lt = t - at(0);
+        guard.root.rotation.y = 0.6 + Math.sin(lt * 1.4) * 0.4;
+        ced.root.position.set(-2.4 + lt * 1.7, 0, -1.6); ced.root.rotation.y = Math.PI / 2;
         ced.body.position.y = -0.25; ced.body.rotation.x = 0.25; animateLimbs(ced, lt * 6, 0.7);
-        c.position.set(6, 6.5, 6.5); c.lookAt(-0.6 + lt * 0.3, 0.6, -0.6);
-      } });
-      // 2 — HoloBand scan (same set from above, cyan)
-      const c2 = cam(40);
-      shots.push({ a: T0 + D, b: T0 + 2 * D, scene: s, cam: c2, hardCut: true, scan: () => 1, update: (t) => {
-        const lt = t - T0 - D;
-        guard.root.rotation.y = 0.6 + Math.sin((lt + D) * 1.2) * 0.4;
-        ced.root.position.set(-0.2 + lt * 0.8, 0, -1.6);
-        c2.position.set(0, 12 - lt * 1.2, 0.4); c2.up.set(0, 0, -1); c2.lookAt(0, 0, 0);
+        c.position.set(5.5, 5.5, 6); c.lookAt(-0.8 + lt * 0.4, 0.6, -0.8);
       } });
     }
-    // 3 — Mimic Device
+    // 2 — the Mimic Device
     {
       const s = facility(), c = cam(30);
       const ced = cedric('coat'); s.add(ced.root);
       const op = person(OP); s.add(op.root);
       const ring = new THREE.Mesh(new THREE.TorusGeometry(1, 0.03, 6, 48), new THREE.MeshBasicMaterial({ color: '#6fd3e0' })); ring.rotation.x = Math.PI / 2; s.add(ring);
-      shots.push({ a: T0 + 2 * D, b: T0 + 3 * D, scene: s, cam: c, hardCut: true, update: (t) => {
-        const lt = t - T0 - 2 * D;
-        const sw = lt > 0.75;
-        const flick = lt > 0.55 && lt < 0.95 ? Math.floor(lt * 30) % 2 === 0 : sw;
+      shots.push({ a: at(1), b: at(2), scene: s, cam: c, hardCut: true, update: (t) => {
+        const lt = t - at(1);
+        const flick = lt > 0.45 && lt < 0.8 ? Math.floor(lt * 30) % 2 === 0 : lt >= 0.8;
         ced.root.visible = !flick; op.root.visible = flick;
-        ring.position.y = 0.1 + (lt * 1.7) % 1.9; ring.scale.setScalar(0.55 + Math.sin(lt * 6) * 0.04); (ring.material as THREE.MeshBasicMaterial).opacity = 1;
-        ring.visible = lt > 0.3 && lt < 1.3;
-        c.position.set(0.4, 1.25, 4.8 - lt * 0.4); c.lookAt(0, 1.05, 0);
+        ring.position.y = 0.1 + (lt * 2.2) % 1.9; ring.scale.setScalar(0.55); ring.visible = lt > 0.2 && lt < 1.1;
+        c.position.set(0.4, 1.6, 4.2 - lt * 0.4); c.lookAt(0, 1.45, 0);
       } });
     }
-    // 4 — ambush + dodge
+    // 3 — shooting: return fire, dodge roll
     {
       const s = facility(), c = cam(36);
       const ced = cedric('coat'); s.add(ced.root);
-      const ops = [person(OP), person(OP)]; ops[0].root.position.set(3.5, 0, -1.4); ops[1].root.position.set(4.2, 0, 0.8); ops.forEach((o) => { o.root.rotation.y = -Math.PI / 2; o.armR.rotation.x = -1.5; s.add(o.root); });
-      const flashes = ops.map((o) => { const f = box(0.25, 0.25, 0.25, '#fff2a0', 0, 0, 0, '#ffd040'); s.add(f); return f; });
+      const gun = box(0.06, 0.1, 0.3, '#22252a'); s.add(gun);
+      const ops = [person(OP), person(OP)]; ops[0].root.position.set(3.5, 0, -1.4); ops[1].root.position.set(4.2, 0, 0.8);
+      ops.forEach((o) => { o.root.rotation.y = -Math.PI / 2; o.armR.rotation.x = -1.5; s.add(o.root); });
+      const flashes = ops.map(() => { const f = box(0.25, 0.25, 0.25, '#fff2a0', 0, 0, 0, '#ffd040'); s.add(f); return f; });
+      const myFlash = box(0.3, 0.3, 0.3, '#bff8ff', 0, 0, 0, '#6fd3e0'); s.add(myFlash);
       const tracers = Array.from({ length: 6 }, () => { const b = box(0.6, 0.04, 0.04, '#ffb060', 0, 0, 0, '#ff8030'); s.add(b); return b; });
-      shots.push({ a: T0 + 3 * D, b: T0 + 4 * D, scene: s, cam: c, hardCut: true, update: (t) => {
-        const lt = t - T0 - 3 * D;
-        const roll = ss((lt - 0.45) / 0.6);
-        ced.root.position.set(-0.6 + roll * 0.2, 0, -0.2 + roll * 1.6); ced.root.rotation.y = Math.PI / 2 - 0.3;
-        ced.body.rotation.x = roll > 0 && roll < 1 ? roll * Math.PI * 2 : 0; ced.body.position.y = roll > 0 && roll < 1 ? -0.4 * Math.sin(roll * Math.PI) : 0;
-        flashes.forEach((f, i) => { const o = ops[i].root.position; f.position.set(o.x - 0.6, 1.35, o.z); f.visible = Math.floor(lt * 12 + i * 3) % 4 === 0; });
-        tracers.forEach((tr, i) => { const p = ((lt * 3 + i / 6) % 1); const o = ops[i % 2].root.position; tr.position.set(lerp(o.x - 0.6, -2.5, p), 1.35, lerp(o.z, -0.2 + (i - 3) * 0.3, p)); });
-        c.position.set(-2.8, 1.4, 3.4); c.lookAt(0.6, 1.0, 0);
+      const mine = Array.from({ length: 3 }, () => { const b = box(0.6, 0.05, 0.05, '#9ff4ff', 0, 0, 0, '#3fd0e0'); s.add(b); return b; });
+      shots.push({ a: at(2), b: at(3), scene: s, cam: c, hardCut: true, update: (t) => {
+        const lt = t - at(2);
+        const roll = ss((lt - 0.2) / 0.45);
+        const rolling = roll > 0 && roll < 1;
+        ced.root.position.set(-0.6 + roll * 0.2, 0, -0.2 + roll * 1.5); ced.root.rotation.y = Math.PI / 2 - 0.25;
+        ced.body.rotation.x = rolling ? roll * Math.PI * 2 : 0; ced.body.position.y = rolling ? -0.4 * Math.sin(roll * Math.PI) : 0;
+        ced.armR.rotation.x = rolling ? 0 : -1.45;
+        const hand = ced.root.position.clone().add(V(0.55, 1.32, 0.05));
+        gun.position.copy(hand); gun.rotation.y = Math.PI / 2 - 0.25; gun.visible = !rolling;
+        const firing = lt > 0.75;
+        myFlash.position.copy(hand).add(V(0.3, 0, 0)); myFlash.visible = firing && Math.floor(lt * 14) % 3 === 0;
+        mine.forEach((m, i) => { const p = ((lt - 0.75) * 4 + i / 3) % 1; m.visible = firing; m.position.set(lerp(hand.x + 0.3, 3.6, p), 1.32, lerp(hand.z, -1.4 + i * 0.1, p)); });
+        const hitK = ss((lt - 1.05) / 0.3); ops[0].root.rotation.z = hitK * 1.3; ops[0].root.position.y = hitK * 0.1;
+        flashes.forEach((f, i) => { const o = ops[i].root.position; f.position.set(o.x - 0.6, 1.35, o.z); f.visible = lt < 0.9 && Math.floor(lt * 12 + i * 3) % 4 === 0; });
+        tracers.forEach((tr, i) => { const p = ((lt * 3 + i / 6) % 1); const o = ops[i % 2].root.position; tr.visible = lt < 0.9; tr.position.set(lerp(o.x - 0.6, -2.5, p), 1.35, lerp(o.z, -0.2 + (i - 3) * 0.3, p)); });
+        c.position.set(-2.8, 1.4, 3.6); c.lookAt(0.6, 1.0, 0);
       } });
     }
-    // 5 — scalpel takedown from behind
+    // 4 — scalpel assassination from behind
     {
       const s = facility(), c = cam(34);
-      const guard = person(OP); guard.root.position.set(0, 0, 0); guard.root.rotation.y = Math.PI; s.add(guard.root);
+      const guard = person(OP); guard.root.rotation.y = Math.PI; s.add(guard.root);
       const ced = cedric('coat'); ced.root.position.set(0, 0, 0.95); ced.root.rotation.y = Math.PI; s.add(ced.root);
-      const blade = box(0.02, 0.02, 0.22, '#e8f6ff', 0, 0, 0, '#9fd8ff'); s.add(blade);
-      shots.push({ a: T0 + 4 * D, b: T0 + 5 * D, scene: s, cam: c, hardCut: true, update: (t) => {
-        const lt = t - T0 - 4 * D;
-        const strike = ss((lt - 0.35) / 0.25);
+      const blade = box(0.02, 0.02, 0.24, '#e8f6ff', 0, 0, 0, '#9fd8ff'); s.add(blade);
+      shots.push({ a: at(3), b: at(4), scene: s, cam: c, hardCut: true, update: (t) => {
+        const lt = t - at(3);
+        const strike = ss((lt - 0.25) / 0.22);
         ced.armR.rotation.x = -0.4 - strike * 1.4;
-        blade.position.set(-0.2, 1.1 + strike * 0.3, 0.6 - strike * 0.3); blade.visible = lt < 1.0;
-        const fallK = ss((lt - 0.8) / 0.6);
+        blade.position.set(-0.2, 1.1 + strike * 0.3, 0.6 - strike * 0.3); blade.visible = lt < 0.8;
+        const fallK = ss((lt - 0.6) / 0.55);
         guard.root.rotation.x = -fallK * 1.45; guard.root.position.y = fallK * 0.15;
-        c.position.set(1.8, 1.6, 2.6); c.lookAt(0, 1.1, 0.4);
+        c.position.set(1.6, 1.65, 2.4); c.lookAt(0, 1.25, 0.45);
       } });
     }
-    // 6 — the chase (side view)
+    // 5 — a conversation with a stranger (dialogue UI overlay)
     {
-      const s = stage('#141e30', 0.8, [30, 60]), c = cam(30);
-      s.add(box(80, 1, 4, '#5a6274', 20, -1, 0));
-      for (let i = 0; i < 16; i++) s.add(box(3.6, 5 + rnd(i) * 6, 2, i % 2 ? '#3a4660' : '#463c58', i * 4.4 - 6, 0, -4));
-      const crates = [4, 9, 14].map((x) => { const b = box(0.9, 0.9, 1.2, '#b08a54', x, 0, 0); s.add(b); return x; });
-      const sun = new THREE.DirectionalLight('#ffffff', 2); sun.position.set(0, 3, 10); s.add(sun);
-      const ced = cedric('coat'); ced.root.rotation.y = Math.PI / 2; s.add(ced.root);
-      const run = person({ skin: '#c98a7a', coat: '#2b2b2b', hair: '#6a6a6a', height: 0.95 }); run.root.rotation.y = Math.PI / 2; s.add(run.root);
-      shots.push({ a: T0 + 5 * D, b: T0 + 6 * D, scene: s, cam: c, hardCut: true, update: (t) => {
-        const lt = t - T0 - 5 * D;
-        const x = 1 + lt * 6.5;
-        let y = 0; for (const cx of crates) { const d = x - (cx - 1.4); if (d > 0 && d < 2.8) y = Math.max(y, Math.sin((d / 2.8) * Math.PI) * 1.3); }
-        ced.root.position.set(x, y, 0); animateLimbs(ced, lt * 14, y > 0 ? 0.3 : 1);
-        const rx = x + 4.2; run.root.position.set(rx, 0, 0); animateLimbs(run, lt * 14, 1);
-        c.position.set(x + 2.5, 2.2, 12); c.lookAt(x + 2.5, 1.4, 0);
+      const s = stage('#0a0a14', 0.55, [12, 40]), c = cam(34);
+      s.add(box(30, 0.1, 30, '#1a1c24', 0, -0.1, 0));
+      for (let i = 0; i < 3; i++) { const st = new THREE.Group(); st.add(box(1.8, 0.9, 0.8, '#5a3f2a'), box(2.1, 0.08, 1.1, ['#c04a5a', '#3f8a8a', '#c9a34a'][i], 0, 2.0, 0), box(0.06, 2.0, 0.06, '#2a2d33', -0.95, 0, 0.45), box(0.06, 2.0, 0.06, '#2a2d33', 0.95, 0, 0.45)); st.position.set(-3 + i * 3, 0, -2.6); s.add(st); }
+      const lp = makeProp('lamppost'); lp.position.set(2.2, 0, 0.8); s.add(lp);
+      const ced = cedric('coat'); ced.root.position.set(-0.6, 0, 0.5); ced.root.rotation.y = Math.PI / 2 + 0.25; s.add(ced.root);
+      const stranger = person({ skin: '#8fb88a', coat: '#5a3f2a', hair: '#2a2a2a', height: 0.96 }); stranger.root.position.set(0.7, 0, 0.2); stranger.root.rotation.y = -Math.PI / 2 - 0.25; s.add(stranger.root);
+      const warm = new THREE.PointLight('#ffb070', 20, 8, 1.3); warm.position.set(0, 2.6, 1.5); s.add(warm);
+      shots.push({ a: at(4), b: at(5), scene: s, cam: c, hardCut: true, update: (t) => {
+        const lt = t - at(4);
+        stranger.armR.rotation.x = -0.6 - Math.sin(lt * 6) * 0.25; stranger.head.rotation.y = Math.sin(lt * 3) * 0.15;
+        c.position.set(-2.4 + lt * 0.3, 2.0, 3.3); c.lookAt(0.3, 1.35, 0.2);
       } });
     }
-    // 7 — evidence inspector + permanent lock stamp
+    // 6 — traveling the planet (the real overworld terrain)
     {
-      const s = stage('#07101a', 0.9), c = cam(30);
-      const g = new THREE.Group();
-      g.add(box(0.5, 0.12, 0.55, '#5a5f66', 0, -0.06, 0.05));
-      for (let i = 0; i < 4; i++) g.add(box(0.09, 0.1, 0.4, '#5a5f66', -0.18 + i * 0.12, -0.05, 0.45));
-      g.add(box(0.54, 0.16, 0.25, '#3a3f46', 0, -0.08, -0.32), box(0.2, 0.06, 0.02, '#c9a34a', 0, -0.02, -0.445, '#3a2a10'));
-      s.add(g);
-      const ring = new THREE.Mesh(new THREE.RingGeometry(0.06, 0.09, 24), new THREE.MeshBasicMaterial({ color: '#f0b44a', transparent: true, side: THREE.DoubleSide })); s.add(ring);
-      const d = new THREE.DirectionalLight('#ffffff', 2); d.position.set(1, 2, 3); s.add(d);
-      shots.push({ a: T0 + 6 * D, b: T0 + 7 * D + 0.05, scene: s, cam: c, hardCut: true, update: (t) => {
-        const lt = t - T0 - 6 * D;
-        g.rotation.set(0.3, 0.6 + ss(lt / 1.2) * 2.5, 0);
-        const n = new THREE.Vector3(0, 0, -1).applyEuler(g.rotation);
-        ring.position.copy(new THREE.Vector3(0, 0, -0.46).applyEuler(g.rotation)); ring.lookAt(ring.position.clone().add(n));
-        (ring.material as THREE.MeshBasicMaterial).opacity = n.z > 0.6 ? 0.6 + Math.sin(lt * 20) * 0.4 : 0;
-        c.position.set(0, 0.1, 1.9 - lt * 0.2); c.lookAt(0, 0, 0);
-      } });
+      const w = this.world;
+      if (w && w.ready) {
+        const c = cam(40);
+        const ship = this.transport(); ship.g.scale.setScalar(1.6); ship.g.visible = false; w.scene.add(ship.g);
+        this.travelShip = ship.g;
+        const path = greatCirclePx(NODE.get('zixel')!.px, NODE.get('kitsah')!.px, 40);
+        const P = (u: number) => { const f = u * (path.length - 1), i = Math.min(path.length - 2, Math.floor(f)), r = f - i; return [lerp(path[i][0], path[i + 1][0], r), lerp(path[i][1], path[i + 1][1], r)] as [number, number]; };
+        shots.push({ a: at(5), b: at(6), scene: w.scene, cam: c, hardCut: true, update: (t) => {
+          const lt = t - at(5); const u = 0.15 + lt * 0.18;
+          const p = P(u), q = P(u + 0.02);
+          ship.g.visible = true; w.setTokenVisible(false);
+          const y = Math.max(0, w.heightAt(p)) + 16;
+          ship.g.position.set(p[0] - ATLAS_W / 2, y, p[1] - ATLAS_H / 2);
+          ship.g.lookAt(q[0] - ATLAS_W / 2, y, q[1] - ATLAS_H / 2); ship.g.rotateY(Math.PI);
+          c.position.set(ship.g.position.x - 26, y + 22, ship.g.position.z + 38); c.lookAt(ship.g.position.x + 8, y - 6, ship.g.position.z - 10);
+        } });
+      } else shots.push({ ...this.arrival()[0], a: at(5), b: at(6), hardCut: true });
     }
     return shots;
-  }
-
-  // ── 80.25–90  arrival: Ryzen-5, Zixel, title ──
-  private arrival(): Shot[] {
-    const s = stage('#000004', 0.2), c = cam(32);
-    const stars = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(Array.from({ length: 1500 }, (_, i) => (rnd(i) - 0.5) * 200), 3)), new THREE.PointsMaterial({ color: '#ffffff', size: 0.25 }));
-    s.add(stars);
-    const tc = document.createElement('canvas'); tc.width = 2048; tc.height = 1024;
-    const tx = tc.getContext('2d')!; tx.fillStyle = '#16384a'; tx.fillRect(0, 0, 2048, 1024);
-    const tex = new THREE.CanvasTexture(tc); tex.colorSpace = THREE.SRGBColorSpace;
-    const img = new Image(); img.onload = () => { tx.drawImage(img, 307, 0, 1536, 1024); tex.needsUpdate = true; }; img.src = `${import.meta.env.BASE_URL}world/ryzen5_terrain.jpg`;
-    const planet = new THREE.Mesh(new THREE.SphereGeometry(10, 96, 64), new THREE.MeshLambertMaterial({ map: tex })); s.add(planet);
-    const atmo = new THREE.Mesh(new THREE.SphereGeometry(10.4, 64, 32), new THREE.MeshBasicMaterial({ color: '#6fd3e0', transparent: true, opacity: 0.12, side: THREE.BackSide })); s.add(atmo);
-    const sun = new THREE.DirectionalLight('#fff4e0', 3.2); sun.position.set(-20, 12, 40); s.add(sun);
-    const a: Shot = { a: 80.25, b: 84, scene: s, cam: c, update: (t, k) => {
-      planet.rotation.y = -Math.PI / 2 - 0.35 + (t - 80.25) * 0.05;
-      planet.rotation.x = 0.1;
-      dolly(c, k, V(0, 4, 48), V(0, 2, 26), V(0, 0, 0), V(0, 0.5, 0));
-    } };
-    // Zixel at night
-    const z = stage('#060a16', 0.35, [70, 220]), c2 = cam(40);
-    z.add(box(200, 0.1, 200, '#0c1018', 0, -0.1, 0));
-    const winTex = canvasTex(32, 64, (x) => { x.fillStyle = '#10141e'; x.fillRect(0, 0, 32, 64); for (let i = 0; i < 40; i++) if (rnd(i) > 0.5) { x.fillStyle = rnd(i + 1) > 0.7 ? '#6fd3e0' : '#f0c060'; x.fillRect((i % 4) * 8 + 2, Math.floor(i / 4) * 6 + 2, 4, 3); } });
-    winTex.wrapS = winTex.wrapT = THREE.RepeatWrapping; winTex.magFilter = THREE.NearestFilter;
-    for (let i = 0; i < 140; i++) {
-      const h = 6 + rnd(i) ** 2 * 40, w = 3 + rnd(i + 7) * 4;
-      const geo = new THREE.BoxGeometry(w, h, w);
-      const uv = geo.getAttribute('uv') as THREE.BufferAttribute; for (let j = 0; j < uv.count; j++) uv.setXY(j, uv.getX(j) * w / 3, uv.getY(j) * h / 6);
-      const m = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ map: winTex, emissive: '#ffffff', emissiveMap: winTex, emissiveIntensity: 0.75 }));
-      const ang = rnd(i + 3) * Math.PI * 2, r = 4 + rnd(i + 5) * 60;
-      m.position.set(Math.cos(ang) * r, h / 2, Math.sin(ang) * r - 6); z.add(m);
-    }
-    const ship = new THREE.Group();
-    const hull = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 12), new THREE.MeshLambertMaterial({ color: '#5a6478' })); hull.scale.set(4, 1.4, 1.6); ship.add(hull);
-    ship.add(box(2.4, 0.8, 1.0, '#3a4050', 0, -1.9, 0));
-    const lights = [box(0.2, 0.2, 0.2, '#ff4040', -3.9, 0, 0, '#ff2020'), box(0.2, 0.2, 0.2, '#40ff80', 3.9, 0, 0, '#20ff60')]; ship.add(...lights);
-    const beam = new THREE.SpotLight('#cfe6ff', 80, 60, 0.35, 0.6, 1.2); beam.position.set(0, -2, 0); beam.target.position.set(0, -30, 0); ship.add(beam, beam.target);
-    z.add(ship);
-    const b: Shot = { a: 84, b: 90.6, scene: z, cam: c2, update: (t, k) => {
-      const lt = t - 84;
-      ship.position.set(22 - lt * 3.0, 50 - lt * 2.4, -12 + lt * 2.6); ship.rotation.y = 0.5; ship.scale.setScalar(1.8);
-      lights.forEach((l, i) => (l.visible = Math.floor(lt * 2 + i) % 2 === 0));
-      const e = ss(Math.min(1, k * 1.15));
-      c2.position.lerpVectors(V(-14, 46, 74), V(-8, 40, 58), e);
-      c2.lookAt(new THREE.Vector3().lerpVectors(ship.position, V(2, 24, -10), ss((lt - 2.6) / 2.4)));
-    } };
-    return [a, b];
   }
 
   // ── playback ──
@@ -681,10 +749,17 @@ export class IntroCinematic {
     if (t > LENGTH - 0.6) black = Math.max(black, (t - (LENGTH - 0.6)) / 0.6);
     fade.style.opacity = String(Math.min(1, Math.max(0, black)));
     const flash = el.querySelector('.iflash') as HTMLElement;
-    flash.style.opacity = shot.hardCut && t - shot.a < 0.08 ? '0.7' : '0';
+    const bloom = (c: number, w: number) => Math.max(0, 1 - Math.abs(t - c) / w);
+    const cyan = bloom(71, 0.7), heat = bloom(75.5, 0.55);
+    if (cyan > 0) { flash.style.background = '#bff6ff'; flash.style.opacity = String(cyan); }
+    else if (heat > 0) { flash.style.background = '#ffb070'; flash.style.opacity = String(heat * 0.95); }
+    else { flash.style.background = '#ffffff'; flash.style.opacity = shot.hardCut && t >= 80.2 && t - shot.a < 0.08 ? '0.7' : '0'; }
     const dodge = el.querySelector('.idodge') as HTMLElement;
-    const dl = t - (68 + 3 * 1.75);
-    dodge.style.opacity = dl > 0.15 && dl < 0.75 ? '1' : '0';
+    const dl = t - (80.25 + 2 * 1.375);
+    dodge.style.opacity = dl > 0.1 && dl < 0.6 ? '1' : '0';
+    const dlg = el.querySelector('.idlg') as HTMLElement;
+    const cv = t - (80.25 + 4 * 1.375);
+    dlg.style.opacity = cv > 0.15 && cv < 1.3 ? '1' : '0';
     for (const kind of ['narr', 'tag', 'place', 'title'] as const) {
       const c = CAPTIONS.find((x) => x.kind === kind && t >= x.a && t < x.b);
       const node = el.querySelector(`.i${kind}`) as HTMLElement;
@@ -732,6 +807,8 @@ export class IntroCinematic {
     this.playing = false;
     this.el().classList.add('hidden');
     if (this.audio) { const a = this.audio; this.audio = null; a.close().catch(() => {}); }
+    if (this.travelShip) this.travelShip.visible = false;
+    this.world?.setTokenVisible(true);
     const cb = this.onDone; this.onDone = null; cb?.();
   }
 }

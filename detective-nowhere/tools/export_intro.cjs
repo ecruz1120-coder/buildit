@@ -22,7 +22,8 @@ const fs = require('fs'), path = require('path'), { execFileSync } = require('ch
   fs.writeFileSync(path.join(work, 'score.wav'), Buffer.from(b64, 'base64'));
   await p.evaluate(() => { const g = window.__game; g.intro.fixedTime = 0; g.playIntro(() => {}); });
   await p.waitForTimeout(3000); // let textures (planet) load
-  const total = Math.round(90 * fps);
+  const length = await p.evaluate(() => window.__game.introLength);
+  const total = Math.round(length * fps);
   for (let i = 0; i < total; i++) {
     await p.evaluate((t) => new Promise((r) => { window.__game.intro.fixedTime = t; requestAnimationFrame(() => requestAnimationFrame(r)); }), i / fps);
     await p.screenshot({ path: path.join(work, `f${String(i).padStart(5, '0')}.jpg`), type: 'jpeg', quality: 92 });

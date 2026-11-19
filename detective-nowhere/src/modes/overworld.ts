@@ -142,6 +142,9 @@ export class Overworld {
     this.ready = true;
   }
 
+  /** Hide Cedric's token (used when the opening cinematic borrows this scene). */
+  setTokenVisible(v: boolean) { this.token.visible = v; }
+
   // ── geometry helpers ──
   isLand(p: Px) {
     const x = Math.floor(p[0] / 2), y = Math.floor(p[1] / 2);
