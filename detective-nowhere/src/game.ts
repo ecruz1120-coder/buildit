@@ -1155,7 +1155,7 @@ export class Game {
       const r = this.intro.update();
       if (r) { u.uScan.value = r.scan; this.pixel.render(r.scene, r.cam); }
       const sk = document.querySelector('#intro .iskip');
-      if (sk) sk.textContent = `${this.input.device === 'pad' ? 'B / A' : 'Esc / E'} — skip`;
+      if (sk) sk.textContent = this.intro.fixedTime !== null ? '' : `${this.input.device === 'pad' ? 'B / A' : 'Esc / E'} — skip`;
       return;
     }
     if (this.inWorld && this.world.ready) {
