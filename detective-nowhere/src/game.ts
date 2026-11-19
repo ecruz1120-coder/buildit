@@ -17,11 +17,13 @@ import { Terminal } from './ui/terminal';
 import { Qte } from './ui/qte';
 import { ChaseMode } from './modes/chase';
 import { Overworld } from './modes/overworld';
+import { IntroCinematic } from './modes/intro';
+import { renderScoreWav } from './audio/score';
 import { NODE } from './world/planet';
 import { Nav, esc } from './ui/nav';
 import { box } from './render/props';
 
-type Mode = 'title' | 'play' | 'dialogue' | 'menu' | 'inspect' | 'hack' | 'qte' | 'chase' | 'transition' | 'over' | 'world';
+type Mode = 'title' | 'play' | 'dialogue' | 'menu' | 'inspect' | 'hack' | 'qte' | 'chase' | 'transition' | 'over' | 'world' | 'intro';
 
 interface Interactable { id: string; floor: number; x: number; z: number; r?: number; clue?: boolean; label: () => string | null; act: () => void; }
 interface Bullet { mesh: THREE.Mesh; x: number; z: number; vx: number; vz: number; floor: number; from: 'player' | 'npc'; life: number; }
@@ -51,6 +53,9 @@ export class Game {
   readonly qte: Qte;
   chase!: ChaseMode;
   world!: Overworld;
+  readonly intro = new IntroCinematic();
+  /** Export hook for the MP4 trailer (tools/export_intro.cjs). */
+  renderScoreWav = renderScoreWav;
   /** True while the player is on the Ryzen-5 overworld (menus opened there return to it). */
   inWorld = false;
   level!: Level;
@@ -96,6 +101,16 @@ export class Game {
     const sc = this.sun.shadow.camera; sc.left = -18; sc.right = 18; sc.top = 18; sc.bottom = -18; sc.near = 1; sc.far = 80;
     this.scene.add(this.sun, this.sun.target);
     window.addEventListener('resize', () => this.resize());
+  }
+
+  /** Opening cinematic (≈90 s), then `next`. Skippable. */
+  playIntro(next: () => void) {
+    this.hideOverlay();
+    this.hud.show(false);
+    this.mode = 'intro';
+    const px = this.pixel.pixelScale;
+    this.pixel.pixelScale = 2; this.resize();
+    this.intro.start(() => { this.pixel.pixelScale = px; this.resize(); this.mode = 'title'; next(); });
   }
 
   /** Called after the Cedric model is loaded. */
@@ -693,9 +708,9 @@ export class Game {
     this.overlay(`<div class="screen"><h1>DETECTIVE NOWHERE</h1><h2>OPENING BUILD TUTORIAL · HOLOBAND TRAINING SIMULATION ${esc(CONTENT.case_id)}</h2>
       <p>${CONTENT.briefing.map(esc).join('<br/>')}</p>
       <p class="muted" style="font-size:12px">${esc(CONTENT.canon_note)}</p>
-      <div class="menu"><button class="nav" data-act="new">BEGIN SIMULATION</button>${has ? '<button class="nav" data-act="cont">CONTINUE (QUICK SAVE)</button>' : ''}<button class="nav" data-act="seed">BEGIN WITH SEED 1234 (reproducible)</button><button class="nav" data-act="world">TRAVEL RYZEN-5 (OVERWORLD)</button></div>
+      <div class="menu"><button class="nav" data-act="new">NEW GAME</button><button class="nav" data-act="watch">WATCH THE OPENING</button>${has ? '<button class="nav" data-act="cont">CONTINUE (QUICK SAVE)</button>' : ''}<button class="nav" data-act="seed">BEGIN WITH SEED 1234 (reproducible)</button><button class="nav" data-act="world">TRAVEL RYZEN-5 (OVERWORLD)</button></div>
       <p class="muted" style="font-size:12px;margin-top:16px">Keyboard + mouse or Xbox controller. Press any controller button to switch prompts.</p></div>`,
-      { new: () => this.newRun(), cont: () => { const g = loadGame(); if (g) this.loadState(g); }, seed: () => this.newRun(1234), world: () => { this.loadState(newGame()); this.enterWorld('zixel'); } });
+      { new: () => this.playIntro(() => this.newRun()), watch: () => this.playIntro(() => this.showTitle()), cont: () => { const g = loadGame(); if (g) this.loadState(g); }, seed: () => this.newRun(1234), world: () => { this.loadState(newGame()); this.enterWorld('zixel'); } });
   }
 
   private showBriefing() {
@@ -732,6 +747,9 @@ export class Game {
       case 'qte': this.qte.update(dt); this.updateWorld(dt * 0.08); break;
       case 'chase': this.chase.update(dt); break;
       case 'world': this.world.update(dt); break;
+      case 'intro':
+        if (this.intro.time() > 0.8 && (inp.pressed('cancel') || inp.pressed('pause') || inp.pressed('interact'))) this.intro.finish();
+        break;
       case 'title': case 'over': this.overlayNav.update(inp); break;
     }
     this.render(dt);
@@ -1133,6 +1151,13 @@ export class Game {
     u.uTime.value = this.time;
     this.damageT = Math.max(0, this.damageT - dt);
     u.uDamage.value = this.damageT * 1.6;
+    if (this.mode === 'intro') {
+      const r = this.intro.update();
+      if (r) { u.uScan.value = r.scan; this.pixel.render(r.scene, r.cam); }
+      const sk = document.querySelector('#intro .iskip');
+      if (sk) sk.textContent = `${this.input.device === 'pad' ? 'B / A' : 'Esc / E'} — skip`;
+      return;
+    }
     if (this.inWorld && this.world.ready) {
       u.uScan.value = 0;
       if (this.mode !== 'world') this.world.update(dt, false);
